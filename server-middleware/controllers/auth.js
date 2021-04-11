@@ -17,7 +17,7 @@ const signin = async (req, res) => {
   } = await supabase.auth.signIn(auth)
 
   if (error) {
-    return res.status(error.status).json(error.message)
+    return res.status(error.status).json({ message: error.message })
   }
 
   return res.status(200).json({ success: true, session })
