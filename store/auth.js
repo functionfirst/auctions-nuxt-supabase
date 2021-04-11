@@ -1,35 +1,32 @@
 import axios from 'axios'
 
 const state = () => ({
-  user: null,
   session: null
 })
 
 const actions = {
-  async logout ({ commit }) {
+  async signout ({ commit }) {
     await axios.get('/api/auth/signout')
-    commit('user', null)
-    commit('session, null')
+    commit('session', null)
   },
 
-  async login ({ commit }, auth) {
+  async getSessionDetails ({ commit }) {
+    const { data: { session } = {} } = await axios.get('/api/auth/session')
+    commit('session', session)
+  },
+
+  async signin ({ commit }, auth) {
     const {
       data: {
-        user,
         session
       } = {}
     } = await axios.post('/api/auth/signin', auth)
 
-    commit('user', user)
     commit('session', session)
   }
 }
 
 const mutations = {
-  user (state, payload) {
-    state.user = payload
-  },
-
   session (state, payload) {
     state.session = payload
   }
