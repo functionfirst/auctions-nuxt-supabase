@@ -5,29 +5,6 @@ const session = async (req, res) => {
   return res.status(200).json({ success: true, session })
 }
 
-const createUser = async (req, res) => {
-  const newUser = {
-    email: req.body.email,
-    password: req.body.password
-  }
-
-  const {
-    session,
-    error
-  } = await supabase.auth.signUp(newUser)
-
-  if (error) {
-    return res.status(error.status).json(error.message)
-  }
-
-  return res.status(200).json({ session })
-}
-
-const userDetails = (req, res) => {
-  const user = supabase.auth.user()
-  res.json({ user })
-}
-
 const signin = async (req, res) => {
   const auth = {
     email: req.body.email,
@@ -51,10 +28,33 @@ const signout = async (req, res) => {
   return res.status(200).json({ success: true })
 }
 
+const signup = async (req, res) => {
+  const newUser = {
+    email: req.body.email,
+    password: req.body.password
+  }
+
+  const {
+    session,
+    error
+  } = await supabase.auth.signUp(newUser)
+
+  if (error) {
+    return res.status(error.status).json({ message: error.message })
+  }
+
+  return res.status(200).json({ session })
+}
+
+const userDetails = (req, res) => {
+  const user = supabase.auth.user()
+  res.json({ user })
+}
+
 export {
-  createUser,
-  userDetails,
   session,
   signin,
-  signout
+  signout,
+  signup,
+  userDetails
 }

@@ -10,12 +10,12 @@ const actions = {
     commit('session', null)
   },
 
-  async register ({ commit }, auth) {
+  async signup ({ commit }, auth) {
     const {
       data: {
         session
       } = {}
-    } = await axios.get('/api/auth/signup', auth)
+    } = await axios.post('/api/auth/signup', auth)
     commit('session', session)
   },
 
