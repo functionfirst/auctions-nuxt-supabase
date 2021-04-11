@@ -85,35 +85,6 @@ export default {
       }
 
       this.loading = false
-
-      // try {
-      //   const {
-      //     data: {
-      //       user,
-      //       session
-      //     } = {}
-      //   } = await this.$axios.post('/api/auth/signup', this.auth)
-
-      //   this.session = session
-      //   this.user = user
-      //   this.success = true
-      //   this.$router.push('/success')
-      // } catch (error) {
-      //   this.error = error.response
-      // }
-      // this.loading = false
-
-      // this.loading = true
-      // const { user, error } = await this.$supabase.auth.signUp(this.auth)
-      // this.loading = false
-
-      // if (error) {
-      //   // @todo centralise error displays using toast?
-      //   this.error = error
-      // }
-
-      // // @todo do we need to store the user now?
-      // this.user = user
     }
   }
 }
