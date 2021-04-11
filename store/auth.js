@@ -10,6 +10,15 @@ const actions = {
     commit('session', null)
   },
 
+  async register ({ commit }, auth) {
+    const {
+      data: {
+        session
+      } = {}
+    } = await axios.get('/api/auth/signup', auth)
+    commit('session', session)
+  },
+
   async getSessionDetails ({ commit }) {
     const { data: { session } = {} } = await axios.get('/api/auth/session')
     commit('session', session)
