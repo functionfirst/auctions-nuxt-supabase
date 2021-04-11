@@ -31,10 +31,13 @@
         required
       >
 
-      <div v-if="error" class="flex bg-yellow-300 p-4 rounded mb-4">
-        <span class="mr-2">[icon]</span>
-        {{ error.data }}
-      </div>
+      <p
+        v-if="error"
+        class="text-red-600 my-4"
+        role="alert"
+      >
+        {{ error.message }}
+      </p>
 
       <button
         class="px-4 py-2 rounded w-full"
@@ -72,14 +75,14 @@ export default {
   methods: {
     async submit () {
       this.error = null
-      this.loading = true
+      this.loading = true // @todo display loading as toast
 
       try {
         await this.$store.dispatch('auth/signin', this.auth)
-        this.success = true
+        this.success = true // @todo display success as toast
         this.$router.push('/')
       } catch (error) {
-        this.error = error.response
+        this.error = error.response.data // @todo display error as toast
       }
 
       this.loading = false
