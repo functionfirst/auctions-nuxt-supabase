@@ -1,13 +1,13 @@
 const bodyParser = require('body-parser')
 const app = require('express')()
-const { session, signIn, signOut }  = require('./controllers/auth')
+const { session, signin, signout }  = require('./controllers/auth')
 const { createUser, userDetails } =  require('./controllers/users')
 
 app.use(bodyParser.json())
 
 app.get('/auth/session', session)
-app.get('/auth/signout', signOut)
-app.post('/auth/signin', signIn)
+app.get('/auth/signout', signout)
+app.post('/auth/signin', signin)
 app.post('/auth/signup', createUser)
 
 app.get('/user/details', userDetails)
