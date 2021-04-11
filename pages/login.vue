@@ -75,16 +75,7 @@ export default {
       this.loading = true
 
       try {
-        // const {
-        //   data: {
-        //     user,
-        //     session
-        //   } = {}
-        // } = await this.$supabase.auth.signin(this.auth)
-        await this.$store.dispatch('auth/login', this.auth)
-
-        // this.$store.commit('auth/user', user)
-        // this.$store.commit('auth/session', session)
+        await this.$store.dispatch('auth/signin', this.auth)
         this.success = true
         this.$router.push('/')
       } catch (error) {
