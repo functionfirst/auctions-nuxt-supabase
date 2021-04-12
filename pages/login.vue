@@ -1,35 +1,45 @@
 <template>
-  <div class="mx-auto max-w-sm mt-12 border rounded shadow-sm p-4">
-    <div v-if="loading" class="fixed top-0 inset-x max-w-sm">
-      [spinner] Loading...
-    </div>
-
+  <div>
     <div v-if="success" class="fixed top-0 inset-x max-w-sm">
       Success!
     </div>
 
-    <form @submit.prevent="submit">
-      <h1 class="text-center text-2xl font-semibold">
-        Login
-      </h1>
+    <h1 class="font-semibold">
+      Login to your account
+    </h1>
 
-      <label for="loginEmail">Email</label>
-      <input
+    <form
+      class="w-full max-w-lg mt-6"
+      @submit.prevent="submit"
+    >
+      <base-label for="loginEmail" class="mb-2">
+        Email
+      </base-label>
+
+      <base-input
         id="loginEmail"
         v-model="auth.email"
-        type="text"
-        class="w-full mb-4 border px-3 py-2 rounded"
+        placeholder="your@email.com"
         required
-      >
+      />
 
-      <label for="loginPassword">Password</label>
-      <input
+      <div class="flex mb-2 items-center mt-6">
+        <base-label for="loginPassword" class="flex-1">
+          Password
+        </base-label>
+
+        <nuxt-link to="forgot-password" class="text-indigo-600 hover:text-indigo-800">
+          Forgot your password?
+        </nuxt-link>
+      </div>
+
+      <base-input
         id="loginPassword"
         v-model="auth.password"
         type="password"
-        class="w-full mb-4 border px-3 py-2 rounded"
+        placeholder="******************"
         required
-      >
+      />
 
       <p
         v-if="error"
@@ -39,25 +49,23 @@
         {{ error.message }}
       </p>
 
-      <button
-        class="px-4 py-2 rounded w-full"
-        :class="loading ? 'bg-gray-600 hover:bg-gray-800 text-white' : 'bg-indigo-600 hover:bg-indigo-800 text-white'"
-        :disabled="loading"
-      >
-        Login
-      </button>
-    </form>
+      <!-- <button type="button" @click="loading = !loading">Toggle Loader</button> -->
 
-    <p class="text-center mt-4">
-      <nuxt-link to="register" class="text-indigo-600 hover:text-indigo-800">
-        Register an account
-      </nuxt-link>
-    </p>
+      <div class="text-center mt-6">
+        <loading-button
+          color="primary"
+          text="Login"
+          :loading="loading"
+        />
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 export default {
+  layout: 'base',
+
   data () {
     return {
       auth: {

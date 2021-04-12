@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="font-semibold text-2xl mb-4">
-      Most Recent Auctions
+      Discover
     </h1>
 
     <AuctionList />

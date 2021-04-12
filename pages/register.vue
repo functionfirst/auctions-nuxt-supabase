@@ -1,55 +1,74 @@
 <template>
-  <div class="mx-auto max-w-sm mt-12 border rounded shadow-sm p-4">
-    <div v-if="loading" class="fixed top-0 inset-x max-w-sm">
-      [spinner] Loading...
-    </div>
+  <div>
+    <transition
+      enter-active-class="transition-all transform duration-300 ease-out-quad"
+      leave-active-class="transition-all transform duration-300 ease-in-quad"
+      enter-class="opacity-0 -translate-y-12"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-12"
+    >
+      <div
+        v-if="error"
+        class="bg-indigo-900 text-white absolute flex items-center top-0 my-4 w-full mx-auto max-w-md rounded-md shadow-lg py-2 px-4"
+        role="alert"
+      >
+        <p class="flex-1">
+          {{ error.message }}
+        </p>
 
-    <form @submit.prevent="submit">
-      <h1 class="text-center text-2xl font-semibold">
-        Register
-      </h1>
+        <button class="w-12 h-12 -m-4" @click="error = null">
+          &times;
+        </button>
+      </div>
+    </transition>
 
-      <label for="loginEmail">Email</label>
-      <input
+    <h1 class="font-semibold">
+      Create your account
+    </h1>
+
+    <form
+      class="w-full max-w-lg mt-6"
+      @submit.prevent="submit"
+    >
+      <base-label for="loginEmail" class="mb-2">
+        Email
+      </base-label>
+
+      <base-input
         id="loginEmail"
         v-model="auth.email"
-        type="text"
-        class="w-full mb-4 border px-3 py-2 rounded"
+        placeholder="your@email.com"
         required
-      >
+      />
 
-      <label for="loginPassword">Password</label>
-      <input
+      <base-label for="loginPassword" class="mb-2 mt-6">
+        Password
+      </base-label>
+
+      <base-input
         id="loginPassword"
         v-model="auth.password"
         type="password"
-        class="w-full mb-4 border px-3 py-2 rounded"
+        placeholder="******************"
         required
-      >
+      />
 
-      <p
-        v-if="error"
-        class="text-red-600 my-4"
-        role="alert"
-      >
-        {{ error.message }}
-      </p>
-
-      <button class="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded w-full">
-        Register
-      </button>
+      <div class="text-center mt-6">
+        <loading-button
+          color="primary"
+          text="Create Account"
+          :loading="loading"
+        />
+      </div>
     </form>
-    <p class="text-center mt-4">
-      Already have an account?
-      <nuxt-link to="login" class="text-indigo-600 hover:text-indigo-800">
-        Login
-      </nuxt-link>
-    </p>
   </div>
 </template>
 
 <script>
 export default {
+  layout: 'base',
+
   data () {
     return {
       auth: {

@@ -3,11 +3,10 @@
     <LayoutHeader>
       <LayoutHeaderLogo />
       <LayoutBurgerMenu />
-      <LayoutNavigation />
       <LayoutUserNav />
     </LayoutHeader>
 
-    <div class="max-w-6xl mx-auto p-4 sm:px-6">
+    <div class="mx-auto max-w-lg p-8">
       <Nuxt />
     </div>
   </div>
