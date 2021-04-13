@@ -2,7 +2,7 @@
   <div>
     <LayoutHeader>
       <LayoutHeaderLogo />
-      <LayoutBurgerMenu />
+      <LayoutMenuIcon />
       <LayoutNavigation />
       <LayoutUserNav />
     </LayoutHeader>
