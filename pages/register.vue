@@ -71,26 +71,37 @@ export default {
 
   data () {
     return {
-      auth: {
-        email: '',
-        password: ''
-      },
+      error: null,
       loading: false,
-      error: null
+      auth: {
+        email: null,
+        password: null,
+        passwordConfirm: null
+      }
     }
   },
 
   methods: {
-    async submit () {
-      this.error = null
+    async signUp () {
       this.loading = true
 
       try {
-        await this.$store.dispatch('auth/signup', this.auth)
-        this.success = true // @todo display confirmation toast message - should be global vuex
+        const { email, password, passwordConfirm } = this.auth
+
+        if (passwordConfirm !== password) {
+          throw new Error('Password do not match')
+        }
+
+        const { error } = await this.$supabase.auth.signUp({ email, password })
+
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // @todo trigger a success toast message
         this.$router.push('/success')
       } catch (error) {
-        this.error = error.response.data // @todo display error in toast - should be global vuex
+        this.error = error.message
       }
 
       this.loading = false
