@@ -4,7 +4,7 @@
       Success!
     </div>
 
-    <h1 class="font-semibold">
+    <h1 class="font-semibold text-xl">
       Forgot your password?
     </h1>
 
