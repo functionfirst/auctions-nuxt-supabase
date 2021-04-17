@@ -14,7 +14,7 @@
         role="alert"
       >
         <p class="flex-1">
-          {{ error.message }}
+          {{ error }}
         </p>
 
         <button type="button" class="w-12 h-12 -m-4" @click="error = null">
