@@ -68,29 +68,37 @@ export default {
 
   data () {
     return {
-      auth: {
-        email: '',
-        password: ''
-      },
-      loading: false,
       error: null,
-      success: false,
-      session: {},
-      user: {}
+      loading: false,
+      auth: {
+        email: null,
+        password: null
+      }
+    }
+  },
+
+  computed: {
+    redirect () {
+      return this.$route.query.redirect || '/'
     }
   },
 
   methods: {
-    async submit () {
-      this.error = null
-      this.loading = true // @todo display loading as toast
+    async signIn () {
+      this.loading = true
 
       try {
-        await this.$store.dispatch('auth/signin', this.auth)
-        this.success = true // @todo display success as toast
-        this.$router.push('/')
+        const { email, password } = this.auth
+        const { error } = await this.$supabase.auth.signIn({ email, password })
+
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // @todo trigger a success toast message
+        this.$router.push(this.redirect)
       } catch (error) {
-        this.error = error.response.data // @todo display error as toast
+        this.error = error.message
       }
 
       this.loading = false
