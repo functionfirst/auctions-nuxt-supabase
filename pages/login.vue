@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div v-if="success" class="fixed top-0 inset-x max-w-sm">
-      Success!
-    </div>
-
-    <h1 class="font-semibold">
+    <h1 class="font-semibold text-xl">
       Login to your account
     </h1>
 
+    <p class="text-gray-500 my-2">
+      Don't have an account?
+      <nuxt-link to="/register" class="text-indigo-600 hover:text-indigo-800">
+        Sign up
+      </nuxt-link>
+    </p>
+
     <form
       class="w-full max-w-lg mt-6"
-      @submit.prevent="submit"
+      @submit.prevent="signIn"
     >
       <base-label for="loginEmail" class="mb-2">
         Email
@@ -46,10 +49,8 @@
         class="text-red-600 my-4"
         role="alert"
       >
-        {{ error.message }}
+        {{ error }}
       </p>
-
-      <!-- <button type="button" @click="loading = !loading">Toggle Loader</button> -->
 
       <div class="text-center mt-6">
         <loading-button
