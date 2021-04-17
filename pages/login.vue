@@ -69,12 +69,12 @@ export default {
 
   data () {
     return {
-      error: null,
-      loading: false,
       auth: {
         email: null,
         password: null
-      }
+      },
+      error: null,
+      loading: false
     }
   },
 
@@ -86,6 +86,7 @@ export default {
 
   methods: {
     async signIn () {
+      this.error = null
       this.loading = true
 
       try {

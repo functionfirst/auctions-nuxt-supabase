@@ -90,18 +90,19 @@ export default {
 
   data () {
     return {
-      error: null,
-      loading: false,
       auth: {
         email: null,
         password: null,
         passwordConfirm: null
-      }
+      },
+      error: null,
+      loading: false
     }
   },
 
   methods: {
     async signUp () {
+      this.error = null
       this.loading = true
 
       try {
