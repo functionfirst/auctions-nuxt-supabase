@@ -54,6 +54,18 @@
         required
       />
 
+      <base-label for="loginPasswordConfirm" class="mb-2 mt-6">
+        Confirm Password
+      </base-label>
+
+      <base-input
+        id="loginPasswordConfirm"
+        v-model="auth.passwordConfirm"
+        type="password"
+        placeholder="******************"
+        required
+      />
+
       <div class="text-center mt-6">
         <loading-button
           color="primary"
