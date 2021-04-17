@@ -27,6 +27,13 @@
       Create your account
     </h1>
 
+    <p class="text-gray-500 my-2">
+      Already have an account?
+      <nuxt-link to="/login" class="text-indigo-600 hover:text-indigo-800">
+        Log In
+      </nuxt-link>
+    </p>
+
     <form
       class="w-full max-w-lg mt-6"
       @submit.prevent="submit"
