@@ -3,25 +3,44 @@
     <h1>
       Update Password
     </h1>
+
     <form @submit.prevent="submit">
-      <label for="updateCurrentPassword">Password</label>
-      <input type="password" id="updateCurrentPassword">
+      <base-label for="updateCurrentPassword">
+        Password
+      </base-label>
 
-      <hr />
+      <base-input
+        id="updateCurrentPassword"
+        type="password"
+      />
 
-      <label for="updatePassword">New Password</label>
-      <input type="password" id="updatePassword">
+      <hr>
 
-      <label for="updatePasswordConfirm">Confirm Password</label>
-      <input type="password" id="updatePasswordConfirm">
+      <base-label for="updatePassword">
+        New Password
+      </base-label>
 
-      <button
-        class="px-4 py-2 rounded w-full"
-        :class="loading ? 'bg-gray-600 hover:bg-gray-800 text-white' : 'bg-indigo-600 hover:bg-indigo-800 text-white'"
-        :disabled="loading"
-      >
-        Update Password
-      </button>
+      <base-input
+        id="updatePassword"
+        type="password"
+      />
+
+      <base-label for="updatePasswordConfirm">
+        Confirm Password
+      </base-label>
+
+      <base-input
+        id="updatePasswordConfirm"
+        type="password"
+      />
+
+      <div class="text-center mt-6">
+        <loading-button
+          color="primary"
+          text="Login"
+          :loading="loading"
+        />
+      </div>
     </form>
   </div>
 </template>
