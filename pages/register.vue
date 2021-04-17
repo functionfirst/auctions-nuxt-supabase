@@ -36,7 +36,7 @@
 
     <form
       class="w-full max-w-lg mt-6"
-      @submit.prevent="submit"
+      @submit.prevent="signUp"
     >
       <base-label for="loginEmail" class="mb-2">
         Email
