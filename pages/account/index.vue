@@ -4,7 +4,7 @@
       User account (authenticated)
     </p>
 
-    {{ user.email }}
+    {{ user }}
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 
   computed: {
     user () {
-      return this.$store.state.auth.user
+      return this.$store.state.user
     }
   }
 }
