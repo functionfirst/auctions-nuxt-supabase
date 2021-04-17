@@ -1,16 +1,36 @@
-const bodyParser = require('body-parser')
-const app = require('express')()
-const { resetpassword, session, signin, signout, signup, userDetails, updateUser }  = require('./controllers/auth')
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import express from 'express'
+import supabase from '../utils/supabase'
+
+const app = express()
 
 app.use(bodyParser.json())
+app.use(cookieParser())
 
-app.get('/auth/session', session)
-app.post('/auth/signin', signin)
-app.get('/auth/signout', signout)
-app.post('/auth/signup', signup)
-app.post('/auth/resetpassword', resetpassword)
-app.post('/user', updateUser)
+const setAuthCookie = (req, res) => {
+  try {
+    supabase.auth.api.setAuthCookie(req, res)
+  } catch (error) {
+    if (error.message === 'Auth event missing!') {
+      return res.status(error.status).send(error.message)
+    }
 
-app.get('/user', userDetails)
+    return res.status(500).send('Failed to get user')
+  }
+}
 
-module.exports = app
+const getUserByCookie = async (req, res) => {
+  try {
+    const { user } = await supabase.auth.api.getUserByCookie(req)
+
+    return res.status(200).json({ user })
+  } catch (error) {
+    return res.status(500).send('Failed to get user')
+  }
+}
+
+app.post('/auth', setAuthCookie)
+app.get('/auth', getUserByCookie)
+
+export default app
