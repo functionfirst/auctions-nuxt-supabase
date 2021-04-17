@@ -17,7 +17,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/supabase'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -25,15 +27,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/eslint-module', // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/tailwindcss', // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtclub/supabase'
+    '@nuxtjs/tailwindcss' // https://go.nuxtjs.dev/tailwindcss
   ],
-
-  // Supabase module configuration: https://github.com/nuxtclub/supabase
-  supabase: {
-    url: process.env.NUXT_ENV_SUPABASE_URL,
-    key: process.env.NUXT_ENV_SUPABASE_KEY
-  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
