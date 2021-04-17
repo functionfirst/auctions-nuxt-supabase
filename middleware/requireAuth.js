@@ -1,5 +1,5 @@
-export default ({ $supabase, redirect }) => {
-	if (!$supabase.auth.session()) {
-		return redirect('/sign-in')
-	}
+export default ({ $supabase, redirect, route }) => {
+  if (!$supabase.auth.session()) {
+    return redirect(`/login?redirect=${route.path}`)
+  }
 }
