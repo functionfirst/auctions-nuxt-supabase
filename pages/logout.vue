@@ -1,17 +1,35 @@
 <template>
-  <div />
+  <div v-if="error">
+    {{ error }}
+  </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      error: null
+    }
+  },
+
   mounted () {
     this.signout()
   },
 
   methods: {
     async signout () {
-      await this.$store.dispatch('auth/signout')
-      this.$router.push('/')
+      try {
+        const { error } = await this.$supabase.auth.signOut()
+
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // @todo trigger a success toast message
+        this.$router.push('/')
+      } catch (error) {
+        this.error = error.message
+      }
     }
   }
 }
