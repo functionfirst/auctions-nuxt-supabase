@@ -17,13 +17,13 @@
           {{ error.message }}
         </p>
 
-        <button class="w-12 h-12 -m-4" @click="error = null">
+        <button type="button" class="w-12 h-12 -m-4" @click="error = null">
           &times;
         </button>
       </div>
     </transition>
 
-    <h1 class="font-semibold">
+    <h1 class="font-semibold text-xl">
       Create your account
     </h1>
 
