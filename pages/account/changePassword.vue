@@ -28,6 +28,8 @@
 
 <script>
 export default {
+  middleware: 'requireAuth',
+
   methods: {
     submit () {
       // update password

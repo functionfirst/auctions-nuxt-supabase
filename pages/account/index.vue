@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  middleware: 'authenticated',
+  middleware: 'requireAuth',
 
   computed: {
     user () {
