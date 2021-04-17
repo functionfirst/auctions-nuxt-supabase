@@ -1279,13 +1279,6 @@
     webpack-node-externals "^2.5.2"
     webpackbar "^4.0.0"
 
-"@nuxtclub/supabase@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxtclub/supabase/-/supabase-1.0.1.tgz#0274756ec9bb88e122f03c5b6ed61e480549fdab"
-  integrity sha512-5ZPgW/9/HI2LDdEKNgUpaLxfMRmXgA71qEqfjttWgb+7lcrvXeF9V+Y5P0H61tooZOosQwN0OEpjaPSCQt9nOw==
-  dependencies:
-    "@supabase/supabase-js" "^1.7.6"
-
 "@nuxtjs/axios@^5.13.1":
   version "5.13.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.13.1.tgz#70c7444e6be8989372c249637f9287c844340f42"
@@ -1359,10 +1352,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.12.tgz#431ec342a7195622f86688bbda82e3166ce8cb28"
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
-"@supabase/gotrue-js@^1.12.4":
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-1.12.4.tgz#9ffccc9bfbe6509850f1f1ab7f07d3457dc13d7e"
-  integrity sha512-9iVGaheUie3JFlFlIkOS9SDu60BOhtcpLi20Yr7brftiyEMOcTfQ05YSL3IGnCu24agxOUbDAHkJsWpXDItYtw==
+"@supabase/gotrue-js@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-1.13.0.tgz#322857ce20d97270d367019bc8a1caaae873de00"
+  integrity sha512-OeN5dwH33+/eEBHdEisjTPINNSdaTpzt4jeTk1Yfk08v16pE62QsqetcucYLKT8wgED5Z2awd43VXca798PyRQ==
   dependencies:
     cross-fetch "^3.0.6"
 
@@ -1382,12 +1375,12 @@
     query-string "^6.12.1"
     websocket "^1.0.31"
 
-"@supabase/supabase-js@^1.4.2", "@supabase/supabase-js@^1.7.6":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.9.0.tgz#b437cc84af51331dfdd40aaf317940c93db8872a"
-  integrity sha512-nztZ/ElBxJclFgRyrQotiVtJMJd+WTIYuhg1vb5q1/83mwsAh3VUXGStheTqrEtV7mVYm3fO6rQ3qRLwK8XeEQ==
+"@supabase/supabase-js@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-1.11.0.tgz#1a025cb712160398e289c0dfac4e9ca02112f9a0"
+  integrity sha512-3R6sPDilDTejZnW4Nqst0anWZx6nDWYaZA25/k7bieQDSr9CaeMWsyCw6814xJy5gL3BKdd6SV48jEKf7zxgXg==
   dependencies:
-    "@supabase/gotrue-js" "^1.12.4"
+    "@supabase/gotrue-js" "^1.13.0"
     "@supabase/postgrest-js" "^0.28.0"
     "@supabase/realtime-js" "^1.0.6"
     cross-fetch "^3.1.0"
@@ -3007,6 +3000,14 @@ convert-source-map@^1.7.0:
   integrity sha512-4FJkXzKXEDB1snCFZlLP4gpC3JILicCpGbzG9f9G7tGqGCzETQ2hWPrcinA9oU4wtf2biUaEH5065UnMeR33oA==
   dependencies:
     safe-buffer "~5.1.1"
+
+cookie-parser@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.5.tgz#3e572d4b7c0c80f9c61daf604e4336831b5d1d49"
+  integrity sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw==
+  dependencies:
+    cookie "0.4.0"
+    cookie-signature "1.0.6"
 
 cookie-signature@1.0.6:
   version "1.0.6"
@@ -9804,13 +9805,6 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
-
-vue-supabase@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/vue-supabase/-/vue-supabase-1.0.4.tgz#fd5e57cd0f359134836b13d6155d20c175d34afc"
-  integrity sha512-M3ZEMCgnc31wssdub2FK9+2AWn01eEPUUtScXeOdVmgSFKcr42ofkWqJEpdP2NxA+zlaijyHjCfourUrH7Gf+Q==
-  dependencies:
-    "@supabase/supabase-js" "^1.4.2"
 
 vue-template-compiler@^2.6.12:
   version "2.6.12"
