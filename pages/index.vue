@@ -6,15 +6,21 @@
 
 <script>
 export default {
-  created () {
-    this.detectPasswordResetToken()
+  computed: {
+    redirectUrl () {
+      const params = this.$route.hash.replace('#', '')
+      return `/newpassword?${params}`
+    },
+
+    recoverPassword () {
+      const { hash } = this.$route
+      return hash.includes('recovery') || hash.includes('magiclink')
+    }
   },
 
-  methods: {
-    detectPasswordResetToken () {
-      if (this.$route.query.type === 'recovery') {
-        this.$router.push(`/newpassword?token=${this.$route.query.token}`)
-      }
+  mounted () {
+    if (this.recoverPassword) {
+      this.$router.push(this.redirectUrl)
     }
   }
 }
