@@ -24,14 +24,11 @@
     </transition>
 
     <h1 class="font-semibold text-xl">
-      Create your account
+      Sign Up
     </h1>
 
-    <p class="text-gray-500 my-2">
-      Already have an account?
-      <nuxt-link to="/login" class="text-indigo-600 hover:text-indigo-800">
-        Log In
-      </nuxt-link>
+    <p class="text-gray-500 mt-2">
+      Create an account to start tracking and bidding on auctions
     </p>
 
     <form
@@ -39,7 +36,7 @@
       @submit.prevent="signUp"
     >
       <base-label for="loginEmail" class="mb-2">
-        Email
+        Email Address
       </base-label>
 
       <base-input
@@ -62,7 +59,7 @@
       />
 
       <base-label for="loginPasswordConfirm" class="mb-2 mt-6">
-        Confirm Password
+        Confirm your password
       </base-label>
 
       <base-input
@@ -76,11 +73,18 @@
       <div class="text-center mt-6">
         <loading-button
           color="primary"
-          text="Create Account"
+          text="Create an account"
           :loading="loading"
         />
       </div>
     </form>
+
+    <p class="text-center text-gray-500 mt-6">
+      Already have an account?
+      <nuxt-link to="/login" class="text-indigo-600 hover:text-indigo-800">
+        Log In
+      </nuxt-link>
+    </p>
   </div>
 </template>
 

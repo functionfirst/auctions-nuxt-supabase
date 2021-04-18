@@ -4,12 +4,16 @@
       Forgot your password?
     </h1>
 
+    <p class="text-gray-500 mt-2">
+      Enter the email associated with your account and we'll send an email with a link to reset your password.
+    </p>
+
     <form
       class="w-full max-w-lg mt-6"
       @submit.prevent="resetPassword"
     >
       <base-label for="resetEmail" class="mb-2">
-        Email
+        Email Address
       </base-label>
 
       <base-input

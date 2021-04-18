@@ -1,14 +1,11 @@
 <template>
   <div>
     <h1 class="font-semibold text-xl">
-      Login to your account
+      Welcome back
     </h1>
 
-    <p class="text-gray-500 my-2">
-      Don't have an account?
-      <nuxt-link to="/register" class="text-indigo-600 hover:text-indigo-800">
-        Sign up
-      </nuxt-link>
+    <p class="text-gray-500 mt-2">
+      Sign in to your account
     </p>
 
     <form
@@ -16,7 +13,7 @@
       @submit.prevent="signIn"
     >
       <base-label for="loginEmail" class="mb-2">
-        Email
+        Email Address
       </base-label>
 
       <base-input
@@ -60,6 +57,13 @@
         />
       </div>
     </form>
+
+    <p class="text-center text-gray-500 mt-6">
+      Don't have an account?
+      <nuxt-link to="/register" class="text-indigo-600 hover:text-indigo-800">
+        Sign up
+      </nuxt-link>
+    </p>
   </div>
 </template>
 
