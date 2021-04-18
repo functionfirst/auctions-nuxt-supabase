@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div v-if="success" class="fixed top-0 inset-x max-w-sm">
-      Success!
-    </div>
-
     <h1 class="font-semibold text-xl">
       Forgot your password?
     </h1>
 
     <form
       class="w-full max-w-lg mt-6"
-      @submit.prevent="submit"
+      @submit.prevent="resetPassword"
     >
       <base-label for="resetEmail" class="mb-2">
         Email
@@ -20,6 +16,7 @@
         id="resetEmail"
         v-model="email"
         placeholder="your@email.com"
+        required
       />
 
       <p
@@ -27,7 +24,7 @@
         class="text-red-600 mb-4"
         role="alert"
       >
-        {{ error.message }}
+        {{ error }}
       </p>
 
       <div class="text-center mt-6">
@@ -49,28 +46,25 @@ export default {
     return {
       email: '',
       error: null,
-      loading: false,
-      success: false
-    }
-  },
-
-  head () {
-    return {
-      title: 'Forgot your password? - Krimsa'
+      loading: false
     }
   },
 
   methods: {
-    async submit () {
+    async resetPassword () {
       this.error = null
       this.loading = true
-      this.success = false
 
       try {
-        await this.$store.dispatch('auth/resetPassword', { email: this.email })
-        this.success = true
+        const { error } = await this.$supabase.auth.api.resetPasswordForEmail(this.email)
+
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // @todo trigger a success toast message
       } catch (error) {
-        this.error = error.response.data // @todo display error as toast
+        this.error = error.message
       }
 
       this.loading = false
