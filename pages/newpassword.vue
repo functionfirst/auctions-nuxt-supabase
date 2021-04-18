@@ -1,70 +1,85 @@
 <template>
-  <div class="mx-auto max-w-sm mt-12 border rounded shadow-sm p-4">
-    <div v-if="success" class="fixed top-0 inset-x max-w-sm">
-      Success!
-    </div>
-
-    <h1 class="text-center text-2xl font-semibold mb-4">
-      Update your password
+  <div>
+    <h1 class="font-semibold text-xl">
+      Set your password
     </h1>
 
-    <p class="text-gray-600 text-center my-4">
-      Enter your new password below
-    </p>
+    <form
+      class="w-full max-w-lg mt-6"
+      @submit.prevent="updateUser"
+    >
+      <base-label for="newPassword" class="mb-2">
+        Enter your new password
+      </base-label>
 
-    <form @submit.prevent="submit">
-      <label for="newPassword" class="font-semibold cursor-pointer">New Password</label>
-
-      <input
+      <base-input
         id="newPassword"
-        v-model="password"
+        v-model="auth.password"
         type="password"
-        class="w-full mb-4 border px-3 py-2 rounded"
-      >
+      />
 
       <p
         v-if="error"
         class="text-red-600 mb-4"
         role="alert"
       >
-        {{ error.message }}
+        {{ error }}
       </p>
 
-      <button
-        class="px-4 py-2 rounded w-full"
-        :class="loading ? 'bg-gray-600 hover:bg-gray-800 text-white' : 'bg-indigo-600 hover:bg-indigo-800 text-white'"
-        :disabled="loading"
-      >
-        Update Password
-      </button>
+      <div class="text-center mt-6">
+        <loading-button
+          color="primary"
+          text="Set Password"
+          :loading="loading"
+        />
+      </div>
     </form>
   </div>
 </template>
 
 <script>
 export default {
+  layout: 'base',
+
   data () {
     return {
-      password: '',
+      auth: {
+        password: null
+      },
       error: null,
-      loading: false,
-      success: false
+      loading: false
+    }
+  },
+
+  computed: {
+    accessToken () {
+      return this.$route.query.access_token
     }
   },
 
   methods: {
-    async submit () {
-      const token = this.$route.query.token
-
+    async updateUser () {
       this.error = null
       this.loading = true
-      this.success = false
 
       try {
-        await this.$store.dispatch('auth/updateUser', { token, payload: { password: this.password } })
-        this.success = true
+        const { password } = this.auth
+
+        const { error } = await this.$supabase.auth.api.updateUser(
+          this.accessToken,
+          {
+            password
+          }
+        )
+
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // @todo trigger a success toast message
+        this.$router.push('/')
       } catch (error) {
-        this.error = error.response.data // @todo display error as toast
+        this.error = error.message
       }
 
       this.loading = false
