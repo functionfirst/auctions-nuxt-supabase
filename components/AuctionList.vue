@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap">
+  <div class="grid gap-4">
     <AuctionCard
       v-for="auction in auctions"
       :key="auction.id"
@@ -9,31 +9,37 @@
   </div>
 </template>
 
-<script>
-import AuctionCard from '@/components/AuctionCard'
+<script lang="ts">
+import { defineComponent, useFetch, useContext, ref } from '@nuxtjs/composition-api'
 
-export default {
-  components: {
-    AuctionCard
-  },
+type Auction = {
 
-  data () {
-    return {
-      auctions: [],
-      error: null
-    }
-  },
-
-  async fetch () {
-    const { data, error } = await this.$supabase
-      .from('auctions')
-      .select()
-
-    if (error) {
-      this.error = error
-    }
-
-    this.auctions = data
-  }
 }
+
+export default defineComponent({
+  setup () {
+    const { $supabase } = useContext()
+    const err = ref<string|null>(null)
+    const auctions = ref<Auction>([])
+
+    useFetch(async () => {
+      const { data, error } = await $supabase
+        .from('auctions')
+        .select('id, name, slug')
+        .eq('enabled', true)
+        .range(0, 9)
+
+      if (error) {
+        err.value = error.message
+      }
+
+      auctions.value = data
+    })
+
+    return {
+      auctions,
+      error: err
+    }
+  }
+})
 </script>

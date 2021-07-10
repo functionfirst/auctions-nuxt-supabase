@@ -45,11 +45,13 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   computed: {
     user () {
       return this.$store.state.user
     }
   }
-}
+})
 </script>

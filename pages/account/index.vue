@@ -4,7 +4,7 @@
       User account (authenticated)
     </p>
 
-    {{ user }}
+    <pre>{{ user }}</pre>
   </div>
 </template>
 

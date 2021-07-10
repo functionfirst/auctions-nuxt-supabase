@@ -12,7 +12,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   data () {
     return {
       links: [
@@ -35,5 +37,5 @@ export default {
       ]
     }
   }
-}
+})
 </script>

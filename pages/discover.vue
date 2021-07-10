@@ -9,11 +9,13 @@
 </template>
 
 <script>
-import AuctionList from '@/components/AuctionList'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 
-export default {
-  components: {
-    AuctionList
-  }
-}
+export default defineComponent({
+  setup () {
+    useMeta({ title: 'Discover' })
+  },
+
+  head: {}
+})
 </script>
