@@ -6,7 +6,7 @@
       </span>
 
       <span class="block text-indigo-900 font-semibold text-2xl">
-        {{ minimumBid | formatCurrency }}
+        {{ formatCurrency(minimumBid) }}
       </span>
     </h3>
 
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
+import useFilter from '@/composables/useFilter'
 
 export default defineComponent({
   props: {
@@ -37,8 +38,10 @@ export default defineComponent({
   },
 
   setup () {
+    const { formatCurrency } = useFilter()
+
     return {
-      formatCurrency: ''
+      formatCurrency
     }
   }
 })

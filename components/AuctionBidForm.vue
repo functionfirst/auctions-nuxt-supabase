@@ -17,7 +17,7 @@
             :value="increment"
           >
             <!-- {|f| ["+ £#{('%0.2f' % f)}", f]}), -->
-            + {{ increment | formatCurrency }}
+            + {{ formatCurrency(increment) }}
           </option>
         </select>
 
@@ -73,26 +73,28 @@
 
 <script lang="ts">
 import { computed, ref, defineComponent } from '@nuxtjs/composition-api'
+import useFilter from '@/composables/useFilter'
+// import useAuction from '@/composables/useAuction'
 
 export default defineComponent({
   props: {
     minimumBid: {
-      type: Number,
-      required: true
+      required: true,
+      type: Number
     }
   },
 
-  setup () {
-    const minimumBid = ref(0)
+  setup (props) {
+    const { formatCurrency } = useFilter()
+    // const { increments, auction } = useAuction(props.auctionId)
     const incrementAmount = ref(1) // @todo - replace this with value received via web socket?
-    const increments = ref([1, 5, 10, 20, 50, 100, 125, 175, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000])
     const confirmPanel = ref(false)
-
-    const bidAmount = computed(() => minimumBid.value + incrementAmount.value)
+    const increments = ref([1, 5, 10, 20, 50, 100, 125, 175, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000])
+    const bidAmount = computed(() => props.minimumBid + incrementAmount.value)
 
     return {
       bidAmount,
-      formatCurrency: () => {},
+      formatCurrency,
       incrementAmount,
       confirmPanel,
       increments
