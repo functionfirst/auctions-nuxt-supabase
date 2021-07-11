@@ -4,33 +4,37 @@
   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      error: null
-    }
-  },
+<script lang="ts">
+import { defineComponent, onMounted, ref, useContext, useRouter } from '@nuxtjs/composition-api'
 
-  mounted () {
-    this.signout()
-  },
+export default defineComponent({
+  setup () {
+    const { $supabase } = useContext()
+    const router = useRouter()
+    const error = ref(null)
 
-  methods: {
-    async signout () {
+    onMounted(() => {
+      signout()
+    })
+
+    const signout = async () => {
       try {
-        const { error } = await this.$supabase.auth.signOut()
+        const { error } = await $supabase.auth.signOut()
 
         if (error) {
           throw new Error(error.message)
         }
 
         // @todo trigger a success toast message
-        this.$router.push('/')
-      } catch (error) {
-        this.error = error.message
+        router.push('/')
+      } catch (err) {
+        error.value = err.message
       }
     }
+
+    return {
+      error
+    }
   }
-}
+})
 </script>

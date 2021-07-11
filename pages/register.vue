@@ -1,27 +1,10 @@
 <template>
   <div>
-    <transition
-      enter-active-class="transition-all transform duration-300 ease-out-quad"
-      leave-active-class="transition-all transform duration-300 ease-in-quad"
-      enter-class="opacity-0 -translate-y-12"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-12"
-    >
-      <div
-        v-if="error"
-        class="bg-indigo-900 text-white absolute flex items-center top-0 my-4 w-full mx-auto max-w-md rounded-md shadow-lg py-2 px-4"
-        role="alert"
-      >
-        <p class="flex-1">
-          {{ error }}
-        </p>
-
-        <button type="button" class="w-12 h-12 -m-4" @click="error = null">
-          &times;
-        </button>
-      </div>
-    </transition>
+    <snackbar-error
+      type="error"
+      :message="error"
+      @close="error = null"
+    />
 
     <h1 class="font-semibold text-xl">
       Sign Up
@@ -33,7 +16,7 @@
 
     <form
       class="w-full max-w-lg mt-6"
-      @submit.prevent="signUp"
+      @submit.prevent="signup"
     >
       <base-label for="loginEmail" class="mb-2">
         Email Address
@@ -88,48 +71,56 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
 
-  data () {
-    return {
-      auth: {
-        email: null,
-        password: null,
-        passwordConfirm: null
-      },
-      error: null,
-      loading: false
-    }
-  },
+  setup () {
+    const auth = reactive({
+      email: '',
+      password: '',
+      passwordConfirm: ''
+    })
 
-  methods: {
-    async signUp () {
-      this.error = null
-      this.loading = true
+    const { $supabase } = useContext()
+    const router = useRouter()
+    const error = ref(null)
+    const loading = ref(false)
+
+    const signup = async () => {
+      error.value = null
+      loading.value = true
 
       try {
-        const { email, password, passwordConfirm } = this.auth
+        const { email, password, passwordConfirm } = auth
 
         if (passwordConfirm !== password) {
           throw new Error('Password do not match')
         }
 
-        const { error } = await this.$supabase.auth.signUp({ email, password })
+        const { error } = await $supabase.auth.signUp({ email, password })
 
         if (error) {
           throw new Error(error.message)
         }
 
         // @todo trigger a success toast message
-        this.$router.push('/success')
-      } catch (error) {
-        this.error = error.message
+        router.push('/success')
+      } catch (err) {
+        error.value = err.message
       }
 
-      this.loading = false
+      loading.value = false
+    }
+
+    return {
+      auth,
+      error,
+      loading,
+      signup
     }
   }
-}
+})
 </script>

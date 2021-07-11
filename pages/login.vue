@@ -10,7 +10,7 @@
 
     <form
       class="w-full max-w-lg mt-6"
-      @submit.prevent="signIn"
+      @submit.prevent="signin"
     >
       <base-label for="loginEmail" class="mb-2">
         Email Address
@@ -67,48 +67,52 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { computed, useRoute, useRouter, ref, defineComponent, useContext, reactive } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
 
-  data () {
-    return {
-      auth: {
-        email: null,
-        password: null
-      },
-      error: null,
-      loading: false
-    }
-  },
+  setup () {
+    const { $supabase } = useContext()
+    const route = useRoute()
+    const router = useRouter()
+    const error = ref(null)
+    const loading = ref(false)
+    const redirect = computed(() => (route.value.query.redirect || '/'))
 
-  computed: {
-    redirect () {
-      return this.$route.query.redirect || '/'
-    }
-  },
+    const auth = reactive({
+      email: '',
+      password: ''
+    })
 
-  methods: {
-    async signIn () {
-      this.error = null
-      this.loading = true
+    const signin = async () => {
+      error.value = null
+      loading.value = true
 
       try {
-        const { email, password } = this.auth
-        const { error } = await this.$supabase.auth.signIn({ email, password })
+        const { email, password } = auth
+        const { error } = await $supabase.auth.signIn({ email, password })
 
         if (error) {
           throw new Error(error.message)
         }
 
         // @todo trigger a success toast message
-        this.$router.push(this.redirect)
+        router.push(redirect.value.toString())
       } catch (error) {
-        this.error = error.message
+        error.value = error.message
+      } finally {
+        loading.value = false
       }
+    }
 
-      this.loading = false
+    return {
+      auth,
+      error,
+      loading,
+      signin
     }
   }
-}
+})
 </script>

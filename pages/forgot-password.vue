@@ -42,25 +42,24 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
 
-  data () {
-    return {
-      email: '',
-      error: null,
-      loading: false
-    }
-  },
+  setup () {
+    const { $supabase } = useContext()
+    const email = ref('')
+    const error = ref(null)
+    const loading = ref(false)
 
-  methods: {
-    async resetPassword () {
-      this.error = null
-      this.loading = true
+    const resetPassword = async () => {
+      error.value = null
+      loading.value = true
 
       try {
-        const { error } = await this.$supabase.auth.api.resetPasswordForEmail(this.email)
+        const { error } = await $supabase.auth.api.resetPasswordForEmail(email.value)
 
         if (error) {
           throw new Error(error.message)
@@ -68,11 +67,18 @@ export default {
 
         // @todo trigger a success toast message
       } catch (error) {
-        this.error = error.message
+        error.value = error.message
       }
 
-      this.loading = false
+      loading.value = false
+    }
+
+    return {
+      email,
+      error,
+      loading,
+      resetPassword
     }
   }
-}
+})
 </script>
