@@ -45,8 +45,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   middleware: 'requireAuth',
 
   methods: {
@@ -54,5 +56,5 @@ export default {
       // update password
     }
   }
-}
+})
 </script>
