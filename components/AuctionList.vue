@@ -10,35 +10,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useFetch, useContext, ref } from '@nuxtjs/composition-api'
-
-type Auction = {
-
-}
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  setup () {
-    const { $supabase } = useContext()
-    const err = ref<string|null>(null)
-    const auctions = ref<Auction>([])
-
-    useFetch(async () => {
-      const { data, error } = await $supabase
-        .from('auctions')
-        .select('id, name, slug')
-        .eq('enabled', true)
-        .range(0, 9)
-
-      if (error) {
-        err.value = error.message
-      }
-
-      auctions.value = data
-    })
-
-    return {
-      auctions,
-      error: err
+  props: {
+    auctions: {
+      required: true,
+      type: Array
     }
   }
 })
