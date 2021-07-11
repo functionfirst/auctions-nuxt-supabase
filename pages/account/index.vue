@@ -8,8 +8,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   middleware: 'requireAuth',
 
   computed: {
@@ -17,5 +19,5 @@ export default {
       return this.$store.state.user
     }
   }
-}
+})
 </script>
