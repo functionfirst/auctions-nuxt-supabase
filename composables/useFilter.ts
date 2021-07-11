@@ -9,7 +9,7 @@ const formatCurrency = (value: number) => {
   return format(value)
 }
 
-export default function useFilter() {
+export default function useFilter () {
   return {
     formatCurrency
   }
