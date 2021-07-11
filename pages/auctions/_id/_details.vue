@@ -1,17 +1,13 @@
 <template>
   <div class="flex flex-col h-full">
-    <!--
-    {{ auction.name }}
+    <template v-if="$fetchState.error">
+      <p>Error while fetching posts: {{ $fetchState.error.message }}</p>
+    </template>
 
-    {{ auction.description }}
-
-    {{ auction.createdAt }}
-    {{ auction.updatedAt }}
-    {{ auction.startDate }}
-    {{ auction.endDate }}
-    {{ auction.startAmount }}
-    -->
-    <div class="flex-1 relative">
+    <div
+      v-else
+      class="flex-1 relative"
+    >
       <div class="flex gap-4">
         <div class="flex-1">
           <AuctionGallery />
@@ -22,14 +18,14 @@
             {{ auction.name }}
           </h1>
 
-          <AuctionWatch class="my-2" />
+          <!-- <AuctionWatch :auction-id="auction.id" class="my-2" /> -->
 
           <div class="flex items-center justify-between">
-            <AuctionCurrentBid :minimum-bid="minimumBid" />
+            <!-- <AuctionCurrentBid :minimum-bid="auction.minimumBid" /> -->
             <AuctionCountdown />
           </div>
 
-          <AuctionBidForm :minimum-bid="minimumBid" />
+          <!-- <AuctionBidForm :minimum-bid="auction.minimumBid" /> -->
         </div>
       </div>
 
@@ -66,70 +62,41 @@
 </template>
 
 <script lang="ts">
-export default {
-  // data () {
-  //   return {
-  //     auction: null,
-  //     watching: false
-  //   }
-  // },
+import { defineComponent, useRoute, useContext, useFetch, useMeta, ref } from '@nuxtjs/composition-api'
+import { IAuction } from '@/types/types'
+import AuctionRepository from '@/repositories/AuctionRepository'
 
-  // async fetch () {
-  //   const {
-  //     data: auction,
-  //     error
-  //   } = await this.$supabase
-  //     .from('auctions')
-  //     .select(`
-  //       *,
-  //       bids (
-  //         value
-  //       )
-  //     `)
-  //     .eq('id', this.id)
-  //     // .order('bids.value', { ascending: false }) // or is this true
-  //     .single()
+export default defineComponent({
+  setup () {
+    const route = useRoute()
+    const { $supabase } = useContext()
+    const id = route.value.params.id
 
-  //   if (error) {
-  //     this.error = error
-  //   }
+    const auction = ref<IAuction|null>(null)
+    const error = ref<string|null>(null)
+    const loading = ref<boolean>(false)
+    const repository = new AuctionRepository($supabase)
 
-  //   this.auction = auction
-  // },
+    useFetch(async () => {
+      loading.value = true
 
-  // head () {
-  //   return {
-  //     title: this.auction.name
-  //   }
-  // },
+      try {
+        auction.value = await repository.findById(id)
+        useMeta(() => ({ title: auction?.value?.name }))
+      } catch (err) {
+        error.value = err.message
+      } finally {
+        loading.value = false
+      }
+    })
 
-  // computed: {
-  //   id () {
-  //     return this.$route.params.id
-  //   },
+    // useMeta(() => ({ title: auction.value?.name }))
 
-  //   highestBid () {
-  //     if (this.auction.bids.length > 0) {
-  //       const [highestBid] = this.auction.bids
-  //       return highestBid.value
-  //     }
+    return {
+      auction
+    }
+  },
 
-  //     return 0
-  //   },
-
-  //   minimumBid () {
-  //     // if (this.auction.bids.length > 0) {
-  //     //   const [firstBid] = this.auction.bids
-  //     //   return firstBid.value
-  //     // }
-
-  //     return this.highestBid || this.auction.startAmount
-  //   }
-  // },
-
-  // mounted () {
-  //   // check if this user is watching the auction
-  //   // make an api call to wishlist endpoint using this auction id and read the user id from the req token
-  // }
-}
+  head: {}
+})
 </script>
