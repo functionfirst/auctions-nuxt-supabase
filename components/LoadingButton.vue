@@ -1,17 +1,17 @@
-<template functional>
+<template>
   <base-button-round
     color="primary"
     class="inline-flex items-center relative"
-    :class="props.loading ? 'pl-16' : null"
-    :disabled="props.loading"
+    :class="loading ? 'pl-16' : null"
+    :disabled="loading"
   >
     <span
       class="transform transition-transform duration-300 ease-in-out"
-      :class="props.loading ? '-translate-x-6' : null"
+      :class="loading ? '-translate-x-6' : null"
     >
-      <span v-show="props.loading">{{ props.loadingText || 'Loading...' }}</span>
-      <span v-show="!props.loading">
-        {{ props.text }}
+      <span v-show="loading">{{ loadingText }}</span>
+      <span v-show="!loading">
+        <slot />
       </span>
     </span>
 
@@ -24,9 +24,28 @@
       leave-to-class="opacity-0 scale-70"
     >
       <IconSpinner
-        v-show="props.loading"
+        v-show="loading"
         class="absolute right-6"
       />
     </transition>
   </base-button-round>
 </template>
+
+<script type="ts">
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
+  props: {
+    loading: {
+      required: false,
+      type: Boolean
+    },
+
+    loadingText: {
+      default: 'Loading...',
+      required: false,
+      type: String
+    }
+  }
+})
+</script>
