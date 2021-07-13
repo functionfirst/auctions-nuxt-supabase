@@ -54,11 +54,9 @@
       />
 
       <div class="text-center mt-6">
-        <loading-button
-          color="primary"
-          text="Create an account"
-          :loading="loading"
-        />
+        <loading-button :loading="loading">
+          Create an account
+        </loading-button>
       </div>
     </form>
 

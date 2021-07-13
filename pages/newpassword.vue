@@ -27,11 +27,9 @@
       </p>
 
       <div class="text-center mt-6">
-        <loading-button
-          color="primary"
-          text="Set Password"
-          :loading="loading"
-        />
+        <loading-button :loading="loading">
+          Set Password
+        </loading-button>
       </div>
     </form>
   </div>

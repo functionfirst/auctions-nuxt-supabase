@@ -32,11 +32,9 @@
       </p>
 
       <div class="text-center mt-6">
-        <loading-button
-          color="primary"
-          text="Reset Password"
-          :loading="loading"
-        />
+        <loading-button :loading="loading">
+          Reset Password
+        </loading-button>
       </div>
     </form>
   </div>

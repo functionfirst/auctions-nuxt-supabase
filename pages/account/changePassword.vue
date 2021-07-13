@@ -35,11 +35,9 @@
       />
 
       <div class="text-center mt-6">
-        <loading-button
-          color="primary"
-          text="Login"
-          :loading="loading"
-        />
+        <loading-button :loading="loading">
+          Login
+        </loading-button>
       </div>
     </form>
   </div>
