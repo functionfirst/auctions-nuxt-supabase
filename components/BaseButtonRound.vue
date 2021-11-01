@@ -14,7 +14,7 @@
   </button>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({

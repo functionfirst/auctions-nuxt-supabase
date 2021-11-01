@@ -5,6 +5,7 @@
       :key="index"
       :to="link.to"
       class="text-gray-500 hover:text-indigo-800 px-3 py-2"
+      v-bind="{ ...link.attributes }"
     >
       {{ link.name }}
     </nuxt-link>
@@ -32,7 +33,10 @@ export default defineComponent({
         },
         {
           to: '/my-auctions',
-          name: 'My Auctions'
+          name: 'My Auctions',
+          attributes: {
+            'data-auth-required': true
+          }
         }
       ]
     }

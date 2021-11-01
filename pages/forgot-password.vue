@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
 
 export default defineComponent({

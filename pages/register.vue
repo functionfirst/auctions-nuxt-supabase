@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
 
 export default defineComponent({

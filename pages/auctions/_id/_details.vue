@@ -5,7 +5,7 @@
     </template>
 
     <div
-      v-else
+      v-else-if="auction"
       class="flex-1 relative"
     >
       <div class="flex gap-4">
@@ -18,10 +18,18 @@
             {{ auction.name }}
           </h1>
 
-          <!-- <AuctionWatch :auction-id="auction.id" class="my-2" /> -->
+          <AuctionWatch
+            v-if="auction.id"
+            :auction-id="auction.id"
+            class="my-2"
+          />
 
           <div class="flex items-center justify-between">
-            <!-- <AuctionCurrentBid :minimum-bid="auction.minimumBid" /> -->
+            <!-- <AuctionCurrentBid
+              :bids="auction.bids"
+              :minimum-bid="auction.minimumBid"
+            /> -->
+
             <AuctionCountdown />
           </div>
 
@@ -61,10 +69,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, useRoute, useContext, useFetch, useMeta, ref } from '@nuxtjs/composition-api'
-import { IAuction } from '@/types/types'
-import AuctionRepository from '@/repositories/AuctionRepository'
+<script>
+import { defineComponent, useRoute, useContext, useFetch, useMeta, reactive, ref } from '@nuxtjs/composition-api'
+import AuctionRepository from '~/repositories/AuctionRepository'
 
 export default defineComponent({
   setup () {
@@ -72,17 +79,18 @@ export default defineComponent({
     const { $supabase } = useContext()
     const id = route.value.params.id
 
-    const auction = ref<IAuction|null>(null)
-    const error = ref<string|null>(null)
-    const loading = ref<boolean>(false)
+    let auction = reactive({})
+    const error = ref(null)
+    const loading = ref(false)
     const repository = new AuctionRepository($supabase)
 
     useFetch(async () => {
       loading.value = true
 
       try {
-        auction.value = await repository.findById(id)
-        useMeta(() => ({ title: auction?.value?.name }))
+        const auct = await repository.findById(id)
+        console.log({ auct })
+        auction = auct
       } catch (err) {
         error.value = err.message
       } finally {
@@ -90,7 +98,9 @@ export default defineComponent({
       }
     })
 
-    // useMeta(() => ({ title: auction.value?.name }))
+    useMeta(() => ({ title: auction.name }))
+
+    // console.log({ auction })
 
     return {
       auction

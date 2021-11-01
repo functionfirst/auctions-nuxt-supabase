@@ -10,7 +10,7 @@
   </h3>
 </template>
 
-<script lang="ts">
+<script>
 import { computed, defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({

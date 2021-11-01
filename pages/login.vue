@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { computed, useRoute, useRouter, ref, defineComponent, useContext, reactive } from '@nuxtjs/composition-api'
 
 export default defineComponent({
@@ -111,6 +111,10 @@ export default defineComponent({
       loading,
       signin
     }
+  },
+
+  head: {
+    title: 'Sign in to your account'
   }
 })
 </script>

@@ -1,25 +1,24 @@
 <template>
-  <div>
+  <div v-if="minimumBidFormatted">
     <h3>
       <span class="block text-gray-600 text-sm uppercase">
-        {{ bids ? 'Current Bid' : 'Starting Bid' }}
+        {{ hasBids ? 'Current Bid' : 'Starting Bid' }}
       </span>
 
       <span class="block text-indigo-900 font-semibold text-2xl">
-        {{ formatCurrency(minimumBid) }}
+        {{ minimumBidFormatted }}
       </span>
     </h3>
 
-    <!--
-      Display number of bids with alink to bid
+    <div v-if="hasBids">
       <span>
-        0 Bids
+        {{ bids.length }} Bids
       </span>
-    -->
+    </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from '@nuxtjs/composition-api'
 import useFilter from '@/composables/useFilter'
 
@@ -37,11 +36,14 @@ export default defineComponent({
     }
   },
 
-  setup () {
+  setup ({ bids, minimumBid }) {
     const { formatCurrency } = useFilter()
+    const hasBids = bids.length > 0
+    const minimumBidFormatted = minimumBid && formatCurrency(minimumBid)
 
     return {
-      formatCurrency
+      hasBids,
+      minimumBidFormatted
     }
   }
 })

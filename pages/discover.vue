@@ -8,15 +8,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, useMeta, useFetch, ref } from '@nuxtjs/composition-api'
-import AuctionRepository from '@/repositories/AuctionRepository'
+import AuctionRepository from '~/repositories/AuctionRepository'
 import { supabase } from '@/plugins/supabase'
 
 export default defineComponent({
   setup () {
-    const auctions = ref<any[]|null>([])
-    const err = ref<String|null>(null)
+    const auctions = ref([])
+    const err = ref(null)
 
     useFetch(async () => {
       const repository = new AuctionRepository(supabase)

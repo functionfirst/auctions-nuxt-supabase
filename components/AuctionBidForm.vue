@@ -71,7 +71,7 @@
   </form>
 </template>
 
-<script lang="ts">
+<script>
 import { computed, ref, defineComponent } from '@nuxtjs/composition-api'
 import useFilter from '@/composables/useFilter'
 // import useAuction from '@/composables/useAuction'
