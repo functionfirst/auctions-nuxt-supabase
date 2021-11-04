@@ -84,27 +84,13 @@ export default defineComponent({
     const { $supabase } = useContext()
     const { title, meta } = useMeta()
     const id = route.value.params.id
-
-    const error = ref(null)
-    const loading = ref(false)
     const auction = ref(null)
     const repository = new AuctionRepository($supabase)
 
     useFetch(async () => {
-      loading.value = true
-
-      try {
-        const auct = await repository.findById(id)
-        auction = auct
-      } catch (err) {
-        error.value = err.message
-      } finally {
-        loading.value = false
-      }
       const data = await repository.findById(id)
       title.value = data.name
       auction.value = data
-    })
 
       // @todo replace with auction description
       meta.value = [
