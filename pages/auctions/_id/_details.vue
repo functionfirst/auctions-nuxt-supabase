@@ -82,6 +82,7 @@ export default {
   setup () {
     const route = useRoute()
     const { $supabase } = useContext()
+    const { title, meta } = useMeta()
     const id = route.value.params.id
 
     const error = ref(null)
@@ -101,10 +102,19 @@ export default {
         loading.value = false
       }
       const data = await repository.findById(id)
+      title.value = data.name
       auction.value = data
     })
 
-    useMeta(() => ({ title: auction.name }))
+      // @todo replace with auction description
+      meta.value = [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'My description'
+        }
+      ]
+    })
 
     return {
       auction
@@ -112,5 +122,5 @@ export default {
   },
 
   head: {}
-}
+})
 </script>
