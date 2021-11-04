@@ -5,7 +5,8 @@
     </h1>
 
     <p class="text-gray-500 mt-2">
-      Enter the email associated with your account and we'll send an email with a link to reset your password.
+      If you've forgotten your password, use the form below to request a link to change it.
+      <!-- Enter the email associated with your account and we'll send an email with a link to reset your password. -->
     </p>
 
     <form
@@ -33,10 +34,24 @@
 
       <div class="text-center mt-6">
         <loading-button :loading="loading">
-          Reset Password
+          Send instructions
         </loading-button>
       </div>
     </form>
+
+    <p class="text-center text-gray-500 mt-6">
+      Already have an account?
+      <nuxt-link to="/login" class="text-indigo-600 hover:text-indigo-800">
+        Log In
+      </nuxt-link>
+    </p>
+
+    <p class="text-center text-gray-500 mt-2">
+      Don't have an account?
+      <nuxt-link to="/register" class="text-indigo-600 hover:text-indigo-800">
+        Sign up
+      </nuxt-link>
+    </p>
   </div>
 </template>
 
