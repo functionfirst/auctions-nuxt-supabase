@@ -38,9 +38,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-
-export default defineComponent({
+export default {
   props: {
     images: {
       default: () => null,
@@ -54,5 +52,5 @@ export default defineComponent({
       slide: 0
     }
   }
-})
+}
 </script>

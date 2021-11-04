@@ -19,10 +19,9 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-import useFilter from '@/composables/useFilter'
+import useFilter from '~/composables/useFilter'
 
-export default defineComponent({
+export default {
   props: {
     bids: {
       default: () => null,
@@ -46,5 +45,5 @@ export default defineComponent({
       minimumBidFormatted
     }
   }
-})
+}
 </script>

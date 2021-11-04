@@ -23,10 +23,9 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-import useWatchlist from '@/composables/useWatchlist'
+import useWatchlist from '~/composables/useWatchlist'
 
-export default defineComponent({
+export default {
   props: {
     auctionId: {
       required: true,
@@ -101,5 +100,5 @@ export default defineComponent({
   //     // this.watching = this.watchlist?.isWatching
   //   }
   // }
-})
+}
 </script>

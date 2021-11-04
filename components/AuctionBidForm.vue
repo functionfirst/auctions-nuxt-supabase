@@ -72,11 +72,11 @@
 </template>
 
 <script>
-import { computed, ref, defineComponent } from '@nuxtjs/composition-api'
-import useFilter from '@/composables/useFilter'
+import { computed, ref } from '@nuxtjs/composition-api'
+import useFilter from '~/composables/useFilter'
 // import useAuction from '@/composables/useAuction'
 
-export default defineComponent({
+export default {
   props: {
     minimumBid: {
       required: true,
@@ -100,5 +100,5 @@ export default defineComponent({
       increments
     }
   }
-})
+}
 </script>

@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import { computed, defineComponent } from '@nuxtjs/composition-api'
+import { computed } from '@nuxtjs/composition-api'
 
-export default defineComponent({
+export default {
   props: {
     isLive: {
       default: false,
@@ -35,5 +35,5 @@ export default defineComponent({
       endDate
     }
   }
-})
+}
 </script>

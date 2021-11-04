@@ -15,9 +15,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
-
-export default defineComponent({
+export default {
   props: {
     color: {
       default: '',
@@ -37,5 +35,5 @@ export default defineComponent({
       type: String
     }
   }
-})
+}
 </script>

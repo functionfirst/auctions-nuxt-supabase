@@ -26,9 +26,8 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
 
-export default defineComponent({
+export default {
   props: {
     bids: {
       default: () => null,
@@ -52,5 +51,5 @@ export default defineComponent({
     // }
 
   }
-})
+}
 </script>

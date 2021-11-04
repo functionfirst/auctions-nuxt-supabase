@@ -15,14 +15,12 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-
-export default defineComponent({
+export default {
   props: {
     auction: {
       required: true,
       type: Object
     }
   }
-})
+}
 </script>
