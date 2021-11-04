@@ -84,9 +84,9 @@ export default {
     const { $supabase } = useContext()
     const id = route.value.params.id
 
-    let auction = reactive({})
     const error = ref(null)
     const loading = ref(false)
+    const auction = ref(null)
     const repository = new AuctionRepository($supabase)
 
     useFetch(async () => {
@@ -100,6 +100,8 @@ export default {
       } finally {
         loading.value = false
       }
+      const data = await repository.findById(id)
+      auction.value = data
     })
 
     useMeta(() => ({ title: auction.name }))
