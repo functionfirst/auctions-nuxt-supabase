@@ -1,7 +1,7 @@
 <template>
   <div class="justify-end md:flex-1 lg:w-0 hidden sm:flex flex-auto items-center">
     <div
-      v-show="user && user.email"
+      v-show="session"
       class="ml-3 relative flex items-center xuppercase tracking-wider font-semibold text-sm"
     >
       <nuxt-link
@@ -22,7 +22,7 @@
     </div>
 
     <div
-      v-show="!user"
+      v-show="!session"
       class="flex items-center tracking-wider font-semibold text-sm"
     >
       <nuxt-link
@@ -45,13 +45,16 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { useStore } from '@nuxtjs/composition-api'
 
-export default defineComponent({
-  computed: {
-    user () {
-      return this.$store.state.user
+export default {
+  setup () {
+    const { state } = useStore()
+    const { session } = state
+
+    return {
+      session
     }
   }
-})
+}
 </script>
