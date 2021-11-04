@@ -75,10 +75,10 @@
 </template>
 
 <script>
-import { useRoute, useContext, useFetch, useMeta, reactive, ref } from '@nuxtjs/composition-api'
+import { useRoute, useContext, useFetch, useMeta, ref, defineComponent } from '@nuxtjs/composition-api'
 import AuctionRepository from '~/repositories/AuctionRepository'
 
-export default {
+export default defineComponent({
   setup () {
     const route = useRoute()
     const { $supabase } = useContext()
