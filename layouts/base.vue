@@ -2,7 +2,6 @@
   <div>
     <LayoutHeader>
       <LayoutHeaderLogo />
-      <LayoutMenuIcon />
     </LayoutHeader>
 
     <div class="mx-auto max-w-lg p-8">
