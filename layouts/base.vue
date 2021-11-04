@@ -3,7 +3,6 @@
     <LayoutHeader>
       <LayoutHeaderLogo />
       <LayoutMenuIcon />
-      <LayoutUserNav />
     </LayoutHeader>
 
     <div class="mx-auto max-w-lg p-8">
