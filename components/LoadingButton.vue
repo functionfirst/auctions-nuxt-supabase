@@ -31,10 +31,8 @@
   </base-button-round>
 </template>
 
-<script type="ts">
-import { defineComponent } from '@vue/composition-api'
-
-export default defineComponent({
+<script>
+export default {
   props: {
     loading: {
       required: false,
@@ -47,5 +45,5 @@ export default defineComponent({
       type: String
     }
   }
-})
+}
 </script>
