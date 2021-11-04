@@ -22,7 +22,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/supabase',
-    '~/plugins/auth'
+    '~/plugins/auth.client'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
