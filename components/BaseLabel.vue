@@ -1,6 +1,6 @@
 <template functional>
   <label
-    class="block cursor-pointer uppercase tracking-wide text-gray-700 text-xs font-bold"
+    class="flex-inline cursor-pointer uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
     :class="[
       data.class,
       data.staticClass
