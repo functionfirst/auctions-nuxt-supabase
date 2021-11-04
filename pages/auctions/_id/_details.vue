@@ -1,11 +1,16 @@
 <template>
   <div class="flex flex-col h-full">
-    <template v-if="$fetchState.error">
-      <p>Error while fetching posts: {{ $fetchState.error.message }}</p>
-    </template>
+    <p v-if="$fetchState.pending">
+      Fetching auction details...
+    </p>
+
+    <p v-else-if="$fetchState.error">
+      Error while fetching auction details:
+      {{ $fetchState.error.message }}
+    </p>
 
     <div
-      v-else-if="auction"
+      v-else
       class="flex-1 relative"
     >
       <div class="flex gap-4">
