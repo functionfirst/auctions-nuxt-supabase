@@ -5,36 +5,22 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, useContext, useRouter } from '@nuxtjs/composition-api'
+import { onMounted } from '@nuxtjs/composition-api'
+import useAuth from '@/composables/useAuth'
 
-export default defineComponent({
+export default {
+  layout: 'base',
+
   setup () {
-    const { $supabase } = useContext()
-    const router = useRouter()
-    const error = ref(null)
+    const { error, signout } = useAuth()
 
     onMounted(() => {
       signout()
     })
 
-    const signout = async () => {
-      try {
-        const { error } = await $supabase.auth.signOut()
-
-        if (error) {
-          throw new Error(error.message)
-        }
-
-        // @todo trigger a success toast message
-        router.push('/')
-      } catch (err) {
-        error.value = err.message
-      }
-    }
-
     return {
       error
     }
   }
-})
+}
 </script>

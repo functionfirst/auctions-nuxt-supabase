@@ -18,7 +18,7 @@
 
       <base-input
         id="loginEmail"
-        v-model="auth.email"
+        v-model="credentials.email"
         placeholder="your@email.com"
         required
       />
@@ -35,7 +35,7 @@
 
       <base-input
         id="loginPassword"
-        v-model="auth.password"
+        v-model="credentials.password"
         type="password"
         placeholder="******************"
         required
@@ -66,47 +66,16 @@
 </template>
 
 <script>
-import { computed, useRoute, useRouter, ref, defineComponent, useContext, reactive } from '@nuxtjs/composition-api'
+import useAuth from '@/composables/useAuth'
 
-export default defineComponent({
+export default {
   layout: 'base',
 
   setup () {
-    const { $supabase } = useContext()
-    const route = useRoute()
-    const router = useRouter()
-    const error = ref(null)
-    const loading = ref(false)
-    const redirect = computed(() => (route.value.query.redirect || '/'))
-
-    const auth = reactive({
-      email: '',
-      password: ''
-    })
-
-    const signin = async () => {
-      error.value = null
-      loading.value = true
-
-      try {
-        const { email, password } = auth
-        const { error } = await $supabase.auth.signIn({ email, password })
-
-        if (error) {
-          throw new Error(error.message)
-        }
-
-        // @todo trigger a success toast message
-        router.push(redirect.value.toString())
-      } catch (error) {
-        error.value = error.message
-      }
-
-      loading.value = false
-    }
+    const { credentials, error, loading, signin } = useAuth()
 
     return {
-      auth,
+      credentials,
       error,
       loading,
       signin
@@ -116,5 +85,5 @@ export default defineComponent({
   head: {
     title: 'Sign in to your account'
   }
-})
+}
 </script>
