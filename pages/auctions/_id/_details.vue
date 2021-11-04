@@ -89,7 +89,6 @@ export default {
 
       try {
         const auct = await repository.findById(id)
-        console.log({ auct })
         auction = auct
       } catch (err) {
         error.value = err.message
@@ -99,8 +98,6 @@ export default {
     })
 
     useMeta(() => ({ title: auction.name }))
-
-    // console.log({ auction })
 
     return {
       auction
