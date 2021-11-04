@@ -5,8 +5,8 @@ module.exports = {
     node: true,
   },
   extends: [
-    // '@nuxtjs',
-    'plugin:nuxt/recommended',
+    '@nuxtjs',
+    'plugin:nuxt/recommended'
   ],
   plugins: [],
   rules: {},
