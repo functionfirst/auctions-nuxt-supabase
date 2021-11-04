@@ -36,9 +36,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-
-export default defineComponent({
+export default {
   layout: 'base',
 
   data () {
@@ -85,5 +83,5 @@ export default defineComponent({
       this.loading = false
     }
   }
-})
+}
 </script>

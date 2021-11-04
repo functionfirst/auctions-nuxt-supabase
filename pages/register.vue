@@ -70,9 +70,9 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
+import { reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
 
-export default defineComponent({
+export default {
   layout: 'base',
 
   setup () {
@@ -120,5 +120,5 @@ export default defineComponent({
       signup
     }
   }
-})
+}
 </script>

@@ -5,9 +5,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-
-export default defineComponent({
+export default {
   computed: {
     redirectUrl () {
       const params = this.$route.hash.replace('#', '')
@@ -25,5 +23,5 @@ export default defineComponent({
       this.$router.push(this.redirectUrl)
     }
   }
-})
+}
 </script>

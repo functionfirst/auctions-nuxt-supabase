@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
+import { ref, useContext } from '@nuxtjs/composition-api'
 
-export default defineComponent({
+export default {
   layout: 'base',
 
   setup () {
