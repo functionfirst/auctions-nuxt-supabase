@@ -7,6 +7,7 @@ function useAuth () {
   const { commit } = useStore()
   const router = useRouter()
   const route = useRoute()
+  const success = ref(null)
   const error = ref(null)
   const loading = ref(false)
   const redirect = computed(() => (route.value.query.redirect || '/'))
@@ -15,6 +16,22 @@ function useAuth () {
     email: '',
     password: ''
   })
+
+  async function resetPasswordForEmail (email) {
+    error.value = null
+    success.value = null
+    loading.value = true
+
+    const { error: err } = await authAPIService.resetPasswordForEmail(email)
+
+    if (err) {
+      error.value = err.message
+    } else {
+      success.value = 'Instructions to reset your password have been emailed to you.'
+    }
+
+    loading.value = false
+  }
 
   async function signout () {
     const { err } = await authAPIService.signout()
@@ -43,8 +60,10 @@ function useAuth () {
 
   return {
     credentials,
+    success: computed(() => success.value),
     error: computed(() => error.value),
     loading: computed(() => loading.value),
+    resetPasswordForEmail,
     signout,
     signin
   }
