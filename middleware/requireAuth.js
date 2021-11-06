@@ -1,7 +1,7 @@
 const requireAuth = ({ $supabase, redirect, route }) => {
-  const user = $supabase.auth.user()
+  const session = $supabase.auth.session()
 
-  if (!user) {
+  if (!session) {
     return redirect(`/login?redirect=${route.path}`)
   }
 }
