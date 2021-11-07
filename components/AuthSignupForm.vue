@@ -26,13 +26,13 @@
       required
     />
 
-    <BaseLabel for="loginPasswordConfirm">
+    <BaseLabel for="loginConfirmPassword">
       Confirm your password
     </BaseLabel>
 
     <BaseInput
-      id="loginPasswordConfirm"
-      v-model="credentials.passwordConfirm"
+      id="loginConfirmPassword"
+      v-model="credentials.confirmPassword"
       type="password"
       placeholder="******************"
       required
@@ -59,7 +59,7 @@ export default defineComponent({
     const credentials = reactive({
       email: '',
       password: '',
-      passwordConfirm: ''
+      confirmPassword: ''
     })
 
     return {

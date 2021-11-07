@@ -82,12 +82,12 @@ function useAuth () {
     loading.value = false
   }
 
-  const signup = async ({ email, password, passwordConfirm }) => {
+  const signup = async ({ email, password, confirmPassword }) => {
     error.value = null
     success.value = null
     loading.value = true
 
-    if (passwordConfirm !== password) {
+    if (confirmPassword !== password) {
       error.value = 'Please ensure your passwords match'
     } else {
       const { error: signUpError, data } = await authAPIService.signup({ email, password })
