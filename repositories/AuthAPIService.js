@@ -19,7 +19,7 @@ class AuthAPIService {
     return this.supabase.auth.signIn(credentials)
   }
 
-  updateUser (accessToken, user) {
+  updateUserWithToken (accessToken, user) {
     return this.supabase.auth.api.updateUser(accessToken, user)
   }
 }

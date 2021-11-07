@@ -107,14 +107,12 @@ function useAuth () {
     loading.value = false
   }
 
-  const updateUser = async (user) => {
+  const updateUserWithToken = async (accessToken, user) => {
     error.value = null
     success.value = null
     loading.value = true
 
-    const accessToken = route.value.query.access_token
-
-    const { error: updateUserError } = await authAPIService.updateUser(accessToken, user)
+    const { error: updateUserError } = await authAPIService.updateUserWithToken(accessToken, user)
 
     if (updateUserError) {
       error.value = updateUserError.message
@@ -135,7 +133,7 @@ function useAuth () {
     signin,
     signout,
     signup,
-    updateUser
+    updateUserWithToken
   }
 }
 

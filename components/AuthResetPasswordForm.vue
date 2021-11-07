@@ -1,7 +1,7 @@
 <template>
   <form
     class="w-full max-w-lg mt-6"
-    @submit.prevent="updateUser(user)"
+    @submit.prevent="updateUserWithToken(accessToken, user)"
   >
     <BaseLabel for="newPassword">
       Enter your new password
@@ -17,19 +17,26 @@
 
     <div class="text-center">
       <LoadingButton :loading="loading">
-        Set Password
+        Reset Password
       </LoadingButton>
     </div>
   </form>
 </template>
 
 <script>
-import { defineComponent, reactive } from '@vue/composition-api'
+import { defineComponent, reactive } from '@nuxtjs/composition-api'
 import useAuth from '@/composables/useAuth'
 
 export default defineComponent({
-  setup () {
-    const { error, loading, updateUser } = useAuth()
+  props: {
+    accessToken: {
+      required: true,
+      type: String
+    }
+  },
+
+  setup (props) {
+    const { error, loading, updateUserWithToken } = useAuth()
 
     const user = reactive({
       password: ''
@@ -38,7 +45,7 @@ export default defineComponent({
     return {
       error,
       loading,
-      updateUser,
+      updateUserWithToken,
       user
     }
   }
