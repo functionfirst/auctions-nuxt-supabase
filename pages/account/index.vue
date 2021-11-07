@@ -1,55 +1,22 @@
 <template>
-  <div class="max-w-2xl mx-auto">
-    <p class="text-gray-500 mb-2">
-      User account (authenticated)
-    </p>
+  <div>
+    <h1 class="font-semibold text-2xl mb-6 tracking-tight">
+      Profile
+    </h1>
 
-    <form @submit.prevent="saveProfile">
-      <BaseLabel for="name">
-        Name
-      </BaseLabel>
-
-      <BaseInput
-        id="name"
-        v-model="profile.name"
-      />
-
-      <ErrorAlert :message="error" />
-
-      <SuccessAlert :message="success" />
-
-      <div class="text-center mt-6">
-        <LoadingButton
-          :loading="loading"
-          loading-text="Saving..."
-        >
-          Update profile
-        </LoadingButton>
-      </div>
-    </form>
+    <ProfileUpdateForm />
   </div>
 </template>
 
 <script>
-import useProfile from '~/composables/useProfile'
+import { defineComponent } from '@nuxtjs/composition-api'
+export default defineComponent({
+  layout: 'account',
 
-export default {
   middleware: 'requireAuth',
-
-  setup () {
-    const { error, success, profile, loading, saveProfile } = useProfile()
-
-    return {
-      error,
-      success,
-      profile,
-      saveProfile,
-      loading
-    }
-  },
 
   head: {
     title: 'Your Account'
   }
-}
+})
 </script>
