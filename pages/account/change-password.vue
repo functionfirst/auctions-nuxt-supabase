@@ -1,62 +1,21 @@
 <template>
   <div>
-    <h1>
-      Update Password
+    <h1 class="font-semibold text-2xl mb-6 tracking-tight">
+      Change Password
     </h1>
 
-    <form @submit.prevent="submit">
-      <base-label for="updateCurrentPassword">
-        Password
-      </base-label>
-
-      <base-input
-        id="updateCurrentPassword"
-        type="password"
-      />
-
-      <hr>
-
-      <base-label for="updatePassword">
-        New Password
-      </base-label>
-
-      <base-input
-        id="updatePassword"
-        type="password"
-      />
-
-      <base-label for="updatePasswordConfirm">
-        Confirm Password
-      </base-label>
-
-      <base-input
-        id="updatePasswordConfirm"
-        type="password"
-      />
-
-      <div class="text-center mt-6">
-        <loading-button :loading="loading">
-          Login
-        </loading-button>
-      </div>
-    </form>
+    <AuthChangePasswordForm />
   </div>
 </template>
 
 <script>
-import { ref } from '@nuxtjs/composition-api'
-
 export default {
+  layout: 'account',
+
   middleware: 'requireAuth',
 
-  setup () {
-    const loading = ref(false)
-    const submit = () => {}
-
-    return {
-      loading,
-      submit
-    }
+  head: {
+    title: 'Change Password'
   }
 }
 </script>

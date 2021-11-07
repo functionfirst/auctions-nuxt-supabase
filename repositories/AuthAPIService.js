@@ -22,6 +22,10 @@ class AuthAPIService {
   updateUserWithToken (accessToken, user) {
     return this.supabase.auth.api.updateUser(accessToken, user)
   }
+
+  updateUser (user) {
+    return this.supabase.auth.update(user)
+  }
 }
 
 export default AuthAPIService

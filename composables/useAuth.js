@@ -129,6 +129,7 @@ function useAuth () {
     session: computed(() => session.value),
     success: computed(() => success.value),
     loading: computed(() => loading.value),
+    changePassword,
     resetPasswordForEmail,
     signin,
     signout,
