@@ -1,7 +1,7 @@
 <template>
   <form
     class="w-full max-w-lg mt-6"
-    @submit.prevent="signin(credentials)"
+    @submit.prevent="signin(credentials, redirect)"
   >
     <BaseLabel for="loginEmail">
       Email Address
@@ -44,10 +44,18 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from '@vue/composition-api'
+import { defineComponent, reactive } from '@nuxtjs/composition-api'
 import useAuth from '@/composables/useAuth'
 
 export default defineComponent({
+  props: {
+    redirect: {
+      default: '/',
+      required: false,
+      type: String
+    }
+  },
+
   setup () {
     const { error, loading, session, signin } = useAuth()
 

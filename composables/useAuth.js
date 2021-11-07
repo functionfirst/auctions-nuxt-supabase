@@ -1,4 +1,4 @@
-import { computed, useStore, useRoute, useRouter, ref, useContext } from '@nuxtjs/composition-api'
+import { computed, useStore, useRouter, ref, useContext } from '@nuxtjs/composition-api'
 import AuthAPIService from '@/repositories/AuthAPIService'
 
 function useAuth () {
@@ -6,7 +6,6 @@ function useAuth () {
   const authAPIService = new AuthAPIService($supabase)
   const { state, commit } = useStore()
   const router = useRouter()
-  const route = useRoute()
 
   const error = ref(null)
   const session = ref(state.session)
@@ -49,12 +48,10 @@ function useAuth () {
     loading.value = false
   }
 
-  const signin = async (credentials) => {
+  const signin = async (credentials, redirect = '/') => {
     error.value = null
     success.value = null
     loading.value = true
-
-    const redirect = route.value.query.redirect || '/'
 
     const { error: signinError } = await authAPIService.signin(credentials)
 

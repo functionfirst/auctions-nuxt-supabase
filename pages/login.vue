@@ -8,18 +8,29 @@
       Sign in to your account
     </p>
 
-    <AuthLoginForm />
+    <AuthLoginForm :redirect="redirect" />
 
     <AuthSignupLink />
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent, useRoute } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
+
+  setup () {
+    const route = useRoute()
+    const redirect = route.value.query.redirect || '/'
+
+    return {
+      redirect
+    }
+  },
 
   head: {
     title: 'Sign in to your account'
   }
-}
+})
 </script>
