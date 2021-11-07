@@ -9,7 +9,7 @@ export default {
   computed: {
     redirectUrl () {
       const params = this.$route.hash.replace('#', '')
-      return `/newpassword?${params}`
+      return `/reset-password?${params}`
     },
 
     recoverPassword () {

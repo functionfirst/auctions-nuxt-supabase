@@ -7,6 +7,7 @@ function useProfile () {
   const profileAPIService = new ProfileAPIService($supabase)
   const loading = ref(false)
   const error = ref(null)
+  const success = ref(null)
   const profile = reactive({})
 
   watchEffect(() => {
@@ -17,35 +18,37 @@ function useProfile () {
 
   async function getUserProfile () {
     if (profileExists.value) { return }
-    loading.value = true
+    success.value = null
     error.value = null
+    loading.value = true
 
-    const { data, error: err } = await profileAPIService.getProfile(state.session)
+    const { data, error: getProfileError } = await profileAPIService.getProfile(state.session)
 
-    if (err) {
-      error.value = err
+    if (getProfileError) {
+      error.value = getProfileError.message
     } else if (data) {
       commit('profile', data)
+      success.value = 'Profile data recovered successfully'
     }
 
     loading.value = false
   }
 
   async function saveProfile () {
-    loading.value = true
     error.value = null
+    success.value = null
+    loading.value = true
 
-    const { error: err } = await profileAPIService.updateProfileMinimal({
+    const { error: updateProfileError } = await profileAPIService.updateProfileMinimal({
       id: state.session.user.id,
       updated_at: new Date(),
       ...profile
     })
 
-    if (err) {
-      error.value = err
+    if (updateProfileError) {
+      error.value = updateProfileError.message
     } else {
-      // @todo replace this with a snackbar
-      alert('profile updated')
+      success.value = 'Your changes have been saved successfully'
       commit('profile', profile)
     }
 
@@ -58,6 +61,7 @@ function useProfile () {
 
   return {
     error: computed(() => error.value),
+    success: computed(() => success.value),
     loading: computed(() => loading.value),
     profile,
     saveProfile

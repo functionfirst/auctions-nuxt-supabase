@@ -14,7 +14,9 @@
         v-model="profile.name"
       />
 
-      {{ error }}
+      <ErrorAlert :message="error" />
+
+      <SuccessAlert :message="success" />
 
       <div class="text-center mt-6">
         <LoadingButton
@@ -35,14 +37,19 @@ export default {
   middleware: 'requireAuth',
 
   setup () {
-    const { error, profile, loading, saveProfile } = useProfile()
+    const { error, success, profile, loading, saveProfile } = useProfile()
 
     return {
       error,
+      success,
       profile,
       saveProfile,
       loading
     }
+  },
+
+  head: {
+    title: 'Your Account'
   }
 }
 </script>

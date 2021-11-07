@@ -3,11 +3,11 @@
     class="w-full max-w-lg mt-6"
     @submit.prevent="resetPasswordForEmail(email)"
   >
-    <base-label for="resetEmail" class="mb-2">
+    <BaseLabel for="resetEmail">
       Email Address
-    </base-label>
+    </BaseLabel>
 
-    <base-input
+    <BaseInput
       id="resetEmail"
       v-model="email"
       type="email"
@@ -15,26 +15,14 @@
       required
     />
 
-    <p
-      v-if="error"
-      class="text-red-600 mb-4"
-      role="alert"
-    >
-      {{ error }}
-    </p>
+    <ErrorAlert :message="error" />
 
-    <p
-      v-show="success"
-      class="text-green-600 mb-4"
-      role="alert"
-    >
-      {{ success }}
-    </p>
+    <SuccessAlert :message="success" />
 
-    <div class="text-center mt-6">
-      <loading-button :loading="loading">
-        Send instructions
-      </loading-button>
+    <div class="text-center">
+      <LoadingButton :loading="loading">
+        Send reset password instructions
+      </LoadingButton>
     </div>
   </form>
 </template>
@@ -45,8 +33,9 @@ import useAuth from '@/composables/useAuth'
 
 export default defineComponent({
   setup () {
-    const email = ref('')
     const { error, success, loading, resetPasswordForEmail } = useAuth()
+
+    const email = ref('')
 
     return {
       email,

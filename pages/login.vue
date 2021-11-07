@@ -1,86 +1,22 @@
 <template>
   <div>
-    <h1 class="font-semibold text-xl">
+    <h1 class="font-semibold text-4xl mb-6 tracking-tight">
       Welcome back
     </h1>
 
-    <p class="text-gray-500 mt-2">
+    <p class="text-gray-700 text-lg mb-6">
       Sign in to your account
     </p>
 
-    <form
-      class="w-full max-w-lg mt-6"
-      @submit.prevent="signin"
-    >
-      <base-label for="loginEmail" class="mb-2">
-        Email Address
-      </base-label>
+    <AuthLoginForm />
 
-      <base-input
-        id="loginEmail"
-        v-model="credentials.email"
-        placeholder="your@email.com"
-        required
-      />
-
-      <div class="flex mb-2 items-center mt-6">
-        <base-label for="loginPassword" class="flex-1">
-          Password
-        </base-label>
-
-        <nuxt-link to="forgot-password" class="text-indigo-600 hover:text-indigo-800">
-          Forgot your password?
-        </nuxt-link>
-      </div>
-
-      <base-input
-        id="loginPassword"
-        v-model="credentials.password"
-        type="password"
-        placeholder="******************"
-        required
-      />
-
-      <p
-        v-if="error"
-        class="text-red-600 my-4"
-        role="alert"
-      >
-        {{ error }}
-      </p>
-
-      <div class="text-center mt-6">
-        <loading-button :loading="loading">
-          Login
-        </loading-button>
-      </div>
-    </form>
-
-    <p class="text-center text-gray-500 mt-6">
-      Don't have an account?
-      <nuxt-link to="/register" class="text-indigo-600 hover:text-indigo-800">
-        Sign up
-      </nuxt-link>
-    </p>
+    <AuthSignupLink />
   </div>
 </template>
 
 <script>
-import useAuth from '@/composables/useAuth'
-
 export default {
   layout: 'base',
-
-  setup () {
-    const { credentials, error, loading, signin } = useAuth()
-
-    return {
-      credentials,
-      error,
-      loading,
-      signin
-    }
-  },
 
   head: {
     title: 'Sign in to your account'
