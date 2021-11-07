@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h1 class="text-2xl font-semibold">
+    <h1 class="font-semibold text-4xl mb-6 tracking-tight">
       Check your email
     </h1>
 
