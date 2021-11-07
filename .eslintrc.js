@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     '@nuxtjs',
+    'babel-eslint',
     'plugin:nuxt/recommended'
   ],
   plugins: [],
