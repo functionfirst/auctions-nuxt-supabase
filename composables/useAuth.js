@@ -13,6 +13,26 @@ function useAuth () {
   const success = ref(null)
   const loading = ref(false)
 
+  const changePassword = async ({ password, confirmPassword }) => {
+    error.value = null
+    success.value = null
+    loading.value = true
+
+    if (confirmPassword !== password) {
+      error.value = 'Please ensure your passwords match'
+    } else {
+      const { error: changePasswordError } = await authAPIService.updateUser({ password })
+
+      if (changePasswordError) {
+        error.value = changePasswordError.message
+      } else {
+        success.value = 'Your password has been updated successfully'
+      }
+    }
+
+    loading.value = false
+  }
+
   const resetPasswordForEmail = async (email) => {
     error.value = null
     success.value = null
