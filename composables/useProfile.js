@@ -28,7 +28,6 @@ function useProfile () {
       error.value = getProfileError.message
     } else if (data) {
       commit('profile', data)
-      success.value = 'Profile data recovered successfully'
     }
 
     loading.value = false
