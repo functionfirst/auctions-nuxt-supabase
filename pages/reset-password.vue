@@ -4,16 +4,27 @@
       Reset your password
     </h1>
 
-    <AuthResetPasswordForm />
+    <AuthResetPasswordForm :access-token="accessToken" />
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent, useRoute } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
+
+  setup () {
+    const route = useRoute()
+    const accessToken = route.value.query.access_token
+
+    return {
+      accessToken
+    }
+  },
 
   head: {
     title: 'Reset your Password'
   }
-}
+})
 </script>
