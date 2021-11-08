@@ -1,12 +1,12 @@
 import { computed, ref } from '@nuxtjs/composition-api'
 import { supabase } from '@/plugins/supabase'
 // import { create, remove, get } from '@/api/watchlist'
-import WatchlistRepository from '@/repositories/WatchlistRepository'
+import WatchlistAPIService from '@/repositories/WatchlistAPIService'
 
 export default function useWatchlist (auctionId) {
   // @todo replace this $supabase with injected context variable for user
   // const { $supabase } = useContext()
-  const repository = new WatchlistRepository(supabase)
+  const watchlistAPIService = new WatchlistAPIService(supabase)
 
   const user = computed(() => supabase.auth.user() || null)
   const uid = computed(() => user.value ? user.value.id : '')
@@ -24,7 +24,7 @@ export default function useWatchlist (auctionId) {
     if (loading.value) { return }
     loading.value = true
 
-    const { data, error } = await repository.get(auctionId, uid.value)
+    const { data, error } = await watchlistAPIService.getByAuctionId(auctionId, uid.value)
 
     if (error) {
       err.value = error.message
@@ -39,7 +39,7 @@ export default function useWatchlist (auctionId) {
     if (loading.value) { return }
     loading.value = true
 
-    const fn = watching.value ? repository.delete : repository.create
+    const fn = watching.value ? watchlistAPIService.delete : watchlistAPIService.create
     const { data, error } = await fn(payload.value)
 
     if (error) {

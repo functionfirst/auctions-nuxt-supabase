@@ -76,7 +76,7 @@
 
 <script>
 import { useRoute, useContext, useFetch, useMeta, ref, defineComponent } from '@nuxtjs/composition-api'
-import AuctionRepository from '~/repositories/AuctionRepository'
+import AuctionAPIService from '~/repositories/AuctionAPIService'
 
 export default defineComponent({
   setup () {
@@ -84,13 +84,19 @@ export default defineComponent({
     const { $supabase } = useContext()
     const { title, meta } = useMeta()
     const id = route.value.params.id
+    const error = ref(null)
     const auction = ref(null)
-    const repository = new AuctionRepository($supabase)
+    const auctionAPIService = new AuctionAPIService($supabase)
 
     useFetch(async () => {
-      const data = await repository.findById(id)
-      title.value = data.name
-      auction.value = data
+      const { data, error: err } = await auctionAPIService.findById(id)
+
+      if (err) {
+        error.value = err.message
+      } else {
+        title.value = data.name
+        auction.value = data
+      }
 
       // @todo replace with auction description
       meta.value = [

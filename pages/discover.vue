@@ -10,7 +10,8 @@
 
 <script>
 import { useMeta, useFetch, ref } from '@nuxtjs/composition-api'
-import AuctionRepository from '~/repositories/AuctionRepository'
+import AuctionAPIService from '~/repositories/AuctionAPIService'
+import Auction from '@/entities/Auction'
 import { supabase } from '@/plugins/supabase'
 
 export default {
@@ -19,13 +20,13 @@ export default {
     const err = ref(null)
 
     useFetch(async () => {
-      const repository = new AuctionRepository(supabase)
-      const { data, error } = await repository.discover()
+      const auctionAPIService = new AuctionAPIService(supabase)
+      const { data, error } = await auctionAPIService.discover()
 
       if (error) {
         err.value = error.message
       } else {
-        auctions.value = data
+        auctions.value = data.map(auction => new Auction(auction))
       }
     })
 
