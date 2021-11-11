@@ -1,34 +1,44 @@
-export default class Auction {
+class Auction {
   id
   bids
+  description
+  estimateMin
+  estimateMax
   name
+  slug
   startAmount
+  hasBids
+  highestBid
+  minimumBid
+  totalBids
 
-  constructor ({
+  constructor({
     id,
     bids,
+    description,
+    estimateMin,
+    estimateMax,
     name,
+    slug,
     startAmount
   }) {
-    this.id = String(id)
+    this.id = id
     this.bids = bids
+    this.description = description
+    this.estimateMin = estimateMin
+    this.estimateMax = estimateMax
     this.name = name
+    this.slug = slug
     this.startAmount = startAmount
-  }
 
-  get minimumBid () {
-    if (this.bids.length > 0) {
-      return this.bids[0].value
-    }
-
-    return this.startAmount
-  }
-
-  get highestBid () {
-    if (this.bids.length > 0) {
-      return this.bids[this.bids.length - 1].value
-    }
-
-    return 0
+    /**
+     * Don't use getters as useFetch SSR seems to return a json object
+     */
+    this.hasBids = Boolean(this.bids.length)
+    this.highestBid = this.hasBids ? this.bids[this.totalBids - 1].value : 0
+    this.minimumBid = this.hasBids ? this.bids[0].value : this.startAmount
+    this.totalBids = this.bids.length
   }
 }
+
+export default Auction
