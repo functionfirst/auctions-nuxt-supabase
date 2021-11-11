@@ -88,7 +88,7 @@ export default defineComponent({
     const auctionAPIService = new AuctionAPIService($supabase)
 
     useFetch(async () => {
-      const { data, error: err } = await auctionAPIService.findById(id)
+      const [data, auctionError] = await auctionAPIService.findById(id)
 
       if (err) {
         error.value = err.message
