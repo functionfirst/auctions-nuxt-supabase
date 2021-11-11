@@ -1,12 +1,12 @@
 <template>
   <div>
-    <template v-if="$fetchState.pending">
+    <div v-if="$fetchState.pending" class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
       <p>Fetching auction details...</p>
-    </template>
+    </div>
 
-    <template v-else-if="$fetchState.error">
+    <div v-else-if="$fetchState.error" class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
       <p>Error while fetching auction details: {{ $fetchState.error.message }}</p>
-    </template>
+    </div>
 
     <template v-else>
       <div class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
