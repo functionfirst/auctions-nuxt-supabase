@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import { useMeta, useFetch, ref } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta, useFetch, ref } from '@nuxtjs/composition-api'
 import AuctionAPIService from '~/repositories/AuctionAPIService'
 import { supabase } from '@/plugins/supabase'
 
-export default {
+export default defineComponent({
   setup () {
     const auctions = ref([])
     const err = ref(null)
@@ -37,5 +37,5 @@ export default {
   },
 
   head: {}
-}
+})
 </script>

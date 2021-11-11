@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import { onMounted } from '@nuxtjs/composition-api'
+import { onMounted, defineComponent } from '@nuxtjs/composition-api'
 import useAuth from '@/composables/useAuth'
 
-export default {
+export default defineComponent({
   layout: 'base',
 
   setup () {
@@ -22,5 +22,5 @@ export default {
       error
     }
   }
-}
+})
 </script>

@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { computed } from '@nuxtjs/composition-api'
+import { computed, defineComponent } from '@nuxtjs/composition-api'
 import useFilter from '~/composables/useFilter'
 
-export default {
+export default defineComponent({
   props: {
     bids: {
       default: () => [],
@@ -58,5 +58,5 @@ export default {
       minimumBidAsCurrency
     }
   }
-}
+})
 </script>

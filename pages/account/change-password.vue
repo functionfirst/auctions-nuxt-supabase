@@ -9,7 +9,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'account',
 
   middleware: 'requireAuth',
@@ -17,5 +19,5 @@ export default {
   head: {
     title: 'Change Password'
   }
-}
+})
 </script>

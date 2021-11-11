@@ -15,11 +15,13 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   layout: 'base',
 
   head: {
     title: 'Create an account to watch and bid on auctions'
   }
-}
+})
 </script>

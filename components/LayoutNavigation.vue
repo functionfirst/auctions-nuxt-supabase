@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import { useStore } from '@nuxtjs/composition-api'
+import { defineComponent, useStore } from '@nuxtjs/composition-api'
 
-export default {
+export default defineComponent({
   setup () {
     const { state } = useStore()
     const { session } = state
@@ -43,5 +43,5 @@ export default {
       session
     }
   }
-}
+})
 </script>

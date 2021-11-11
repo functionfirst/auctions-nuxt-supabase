@@ -32,7 +32,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
   props: {
     loading: {
       required: false,
@@ -45,5 +47,5 @@ export default {
       type: String
     }
   }
-}
+})
 </script>
