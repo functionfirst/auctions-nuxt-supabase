@@ -10,7 +10,7 @@ export default function useWatchlist (auctionId) {
 
   const user = computed(() => supabase.auth.user() || null)
   const uid = computed(() => user.value ? user.value.id : '')
-  const err = ref<String|null>(null)
+  const err = ref(null)
   const loading = ref(false)
   const watching = ref(false)
   const payload = computed(() => {
