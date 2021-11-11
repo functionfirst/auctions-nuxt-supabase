@@ -40,7 +40,7 @@ function useProfile () {
 
     const { error: updateProfileError } = await profileAPIService.updateProfileMinimal({
       id: state.session.user.id,
-      updated_at: new Date(),
+      updatedAt: new Date(), // @todo do this in supabase trigger
       ...profile
     })
 
