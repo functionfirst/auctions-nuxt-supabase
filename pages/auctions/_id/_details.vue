@@ -68,9 +68,8 @@
           Show less
         </button>
       </div>
-
       <AuctionBids />
-    </div>
+    </template>
   </div>
 </template>
 
