@@ -90,21 +90,19 @@ export default defineComponent({
     useFetch(async () => {
       const [data, auctionError] = await auctionAPIService.findById(id)
 
-      if (err) {
-        error.value = err.message
+      if (auctionError) {
+        error.value = auctionError.message
       } else {
         title.value = data.name
         auction.value = data
+        meta.value = [
+          {
+            hid: 'description',
+            name: 'description',
+            content: data.description
+          }
+        ]
       }
-
-      // @todo replace with auction description
-      meta.value = [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'My description'
-        }
-      ]
     })
 
     return {
