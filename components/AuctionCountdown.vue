@@ -1,13 +1,19 @@
 <template>
-  <h3 v-if="isLive" class="flex flex-col-reverse ml-3 items-end">
-    <span class="text-gray-600 text-sm">
-      Auction ends
-    </span>
+  <div>
+    <p class="my-4">
+      Closing: <span class="font-semibold">3 days</span>
+    </p>
 
-    <span class="text-indigo-900 font-medium text-xl">
-      {{ endDate }}
-    </span>
-  </h3>
+    <h3 v-if="isLive" class="flex flex-col-reverse ml-3 items-end">
+      <span class="text-gray-600 text-sm">
+        Auction ends
+      </span>
+
+      <span class="text-indigo-900 font-medium text-xl">
+        {{ endDate }}
+      </span>
+    </h3>
+  </div>
 </template>
 
 <script>

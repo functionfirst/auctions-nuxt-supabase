@@ -1,84 +1,85 @@
 <template>
-  <div class="flex flex-col h-full">
-    <p v-if="$fetchState.pending">
-      Fetching auction details...
-    </p>
+  <div>
+    <template v-if="$fetchState.pending">
+      <p>Fetching auction details...</p>
+    </template>
 
-    <p v-else-if="$fetchState.error">
-      Error while fetching auction details:
-      {{ $fetchState.error.message }}
-    </p>
+    <template v-else-if="$fetchState.error">
+      <p>Error while fetching auction details: {{ $fetchState.error.message }}</p>
+    </template>
 
-    <div
-      v-else
-      class="flex-1 relative"
-    >
-      <div class="flex gap-4">
-        <div class="flex-1">
-          <AuctionGallery />
-        </div>
-
-        <div class="flex-1">
-          <h1 class="text-2xl mb-3 font-semibold text-indigo-900">
-            {{ auction.name }}
-          </h1>
-
-          <AuctionWatch
-            v-if="auction.id"
-            :auction-id="auction.id"
-            class="my-2"
-          />
-
-          <div class="flex items-center justify-between">
-            <!-- <AuctionCurrentBid
-              :bids="auction.bids"
-              :minimum-bid="auction.minimumBid"
-            /> -->
-
-            <AuctionCountdown />
+    <template v-else>
+      <div class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
+        <div class="flex gap-16">
+          <div class="flex-1">
+            <AuctionGallery />
           </div>
 
-          <!-- <AuctionBidForm :minimum-bid="auction.minimumBid" /> -->
+          <div class="flex-1">
+            <h1 class="text-2xl font-semibold text-gray-700">
+              {{ auction.name }}
+            </h1>
+
+            <hr class="border-t border-gray-200 my-6">
+
+            <div class="grid grid-cols-2 gap-6 text-gray-700">
+              <AuctionCurrentBid
+                :bids="auction.bids"
+                :has-bids="auction.hasBids"
+                :minimum-bid="auction.minimumBid"
+              />
+
+              <AuctionEstimate
+                :estimate-min="auction.estimateMin"
+                :estimate-max="auction.estimateMax"
+              />
+            </div>
+
+            <AuctionCountdown />
+
+            <div class="grid gap-4 mt-6">
+              <AuctionSignin
+                v-show="!session"
+                class="col-span-2"
+              />
+
+              <AuctionBidForm
+                v-show="session"
+                :minimum-bid="auction.minimumBid"
+                class="col-span-2"
+              />
+
+              <AuctionWatch :auction-id="auction.id" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="p-5">
-        <div class="grid leading-loose text-gray-600">
-          <p
-            class="truncate"
-            data-description-target="text"
-          >
-            {{ auction.description }}
-          </p>
+      <div class="bg-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+          <h2 class="text-lg font-semibold border-b border-gray-300 p-2">
+            Details
+          </h2>
+
+          <div class="py-4">
+            <p class="leading-7 text-gray-700">
+              {{ auction.description }}
+            </p>
+          </div>
         </div>
-
-        <button
-          data-description-target="show"
-          data-action="description#showText"
-          class="text-yellow-700 hidden"
-        >
-          More info
-        </button>
-
-        <button
-          data-description-target="hide"
-          data-action="description#hideText"
-          class="text-yellow-700 hidden"
-        >
-          Show less
-        </button>
       </div>
-      <AuctionBids />
     </template>
   </div>
 </template>
 
 <script>
-import { useRoute, useContext, useFetch, useMeta, ref, defineComponent } from '@nuxtjs/composition-api'
+import { useRoute, useContext, useFetch, useMeta, ref, useStore, defineComponent } from '@nuxtjs/composition-api'
 import AuctionAPIService from '~/repositories/AuctionAPIService'
 
 export default defineComponent({
   setup () {
+    const { state } = useStore()
+    const { session } = state
     const route = useRoute()
     const { $supabase } = useContext()
     const { title, meta } = useMeta()
@@ -106,7 +107,8 @@ export default defineComponent({
     })
 
     return {
-      auction
+      auction,
+      session
     }
   },
 

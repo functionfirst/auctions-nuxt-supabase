@@ -1,32 +1,33 @@
 <template>
-  <div v-if="minimumBidFormatted">
-    <h3>
-      <span class="block text-gray-600 text-sm uppercase">
-        {{ hasBids ? 'Current Bid' : 'Starting Bid' }}
-      </span>
+  <dl class="flex-1">
+    <dt>
+      {{ bidText }}
 
-      <span class="block text-indigo-900 font-semibold text-2xl">
-        {{ minimumBidFormatted }}
+      <span class="inline-block text-sm font-semibold bg-gray-200 rounded-full px-3 py-1">
+        {{ bidCount }}
       </span>
-    </h3>
-
-    <div v-if="hasBids">
-      <span>
-        {{ bids.length }} Bids
-      </span>
-    </div>
-  </div>
+    </dt>
+    <dd class="font-semibold">
+      {{ minimumBidAsCurrency }}
+    </dd>
+  </dl>
 </template>
 
 <script>
+import { computed } from '@nuxtjs/composition-api'
 import useFilter from '~/composables/useFilter'
 
 export default {
   props: {
     bids: {
-      default: () => null,
+      default: () => [],
       required: false,
       type: Array
+    },
+
+    hasBids: {
+      required: true,
+      type: Boolean
     },
 
     minimumBid: {
@@ -35,14 +36,26 @@ export default {
     }
   },
 
-  setup ({ bids, minimumBid }) {
+  setup ({ bids, hasBids, minimumBid }) {
     const { formatCurrency } = useFilter()
-    const hasBids = bids.length > 0
-    const minimumBidFormatted = minimumBid && formatCurrency(minimumBid)
+    const minimumBidAsCurrency = minimumBid && formatCurrency(minimumBid)
+
+    const bidCount = computed(() => {
+      if (bids.length === 1) {
+        return '1 bid'
+      } else if (bids.length) {
+        return `${bids.length} bids`
+      }
+
+      return 'No bids'
+    })
+
+    const bidText = hasBids ? 'Current Bid' : 'Starting Bid'
 
     return {
-      hasBids,
-      minimumBidFormatted
+      bidCount,
+      bidText,
+      minimumBidAsCurrency
     }
   }
 }
