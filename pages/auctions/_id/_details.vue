@@ -74,7 +74,7 @@
 
 <script>
 import { useRoute, useContext, useFetch, useMeta, ref, useStore, defineComponent } from '@nuxtjs/composition-api'
-import AuctionAPIService from '~/repositories/AuctionAPIService'
+import AuctionAPIService from '@/services/AuctionAPIService'
 
 export default defineComponent({
   setup () {

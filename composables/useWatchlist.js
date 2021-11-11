@@ -1,7 +1,7 @@
 import { computed, ref } from '@nuxtjs/composition-api'
 import { supabase } from '@/plugins/supabase'
 // import { create, remove, get } from '@/api/watchlist'
-import WatchlistAPIService from '@/repositories/WatchlistAPIService'
+import WatchlistAPIService from '@/services/WatchlistAPIService'
 
 export default function useWatchlist (auctionId) {
   // @todo replace this $supabase with injected context variable for user

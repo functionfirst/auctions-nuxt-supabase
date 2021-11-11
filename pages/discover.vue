@@ -10,7 +10,7 @@
 
 <script>
 import { defineComponent, useMeta, useFetch, ref } from '@nuxtjs/composition-api'
-import AuctionAPIService from '~/repositories/AuctionAPIService'
+import AuctionAPIService from '@/services/AuctionAPIService'
 import { supabase } from '@/plugins/supabase'
 
 export default defineComponent({

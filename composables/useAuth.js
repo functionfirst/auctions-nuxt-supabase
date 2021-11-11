@@ -1,5 +1,5 @@
 import { computed, useStore, useRouter, ref, useContext } from '@nuxtjs/composition-api'
-import AuthAPIService from '@/repositories/AuthAPIService'
+import AuthAPIService from '@/services/AuthAPIService'
 
 function useAuth () {
   const { $supabase } = useContext()

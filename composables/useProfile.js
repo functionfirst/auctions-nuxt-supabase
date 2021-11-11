@@ -1,5 +1,5 @@
 import { computed, reactive, ref, onMounted, watchEffect, useContext, useStore } from '@nuxtjs/composition-api'
-import ProfileAPIService from '@/repositories/ProfileAPIService'
+import ProfileAPIService from '@/services/ProfileAPIService'
 
 function useProfile () {
   const { state, commit } = useStore()
