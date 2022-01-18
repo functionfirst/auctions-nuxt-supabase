@@ -1,3 +1,5 @@
+import Cypress from 'cypress'
+
 describe('Login test', () => {
   it('Can login with email and password', () => {
     const username = Cypress.env('AUTH_USERNAME')
