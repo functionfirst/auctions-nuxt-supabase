@@ -4,11 +4,11 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: circleci/node:12
-    steps
+    steps:
       - checkout
       - run:
         name: Update NPM
-        command: "sudo npm install -g npm"
+        command: 'sudo npm install -g npm'
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn-lock.json" }}
       - run:
