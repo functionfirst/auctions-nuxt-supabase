@@ -8,7 +8,10 @@ module.exports = {
     parser: '@babel/eslint-parser',
     requireConfigFile: false
   },
-  extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier', '@vue/eslint-config-typescript'],
+  globals: {
+    cy: true
+  },
+  extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier', '@vue/eslint-config-typescript', 'plugin:cypress/recommended'],
   plugins: [],
   rules: {}
 }
