@@ -1,7 +1,7 @@
 <template>
   <p
     v-show="message"
-    class="text-green-600 my-6"
+    class="text-green-600"
     role="alert"
   >
     {{ message }}

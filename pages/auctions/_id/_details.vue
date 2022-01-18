@@ -1,14 +1,5 @@
 <template>
   <div>
-    <div v-if="$fetchState.pending" class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
-      <p>Fetching auction details...</p>
-    </div>
-
-    <div v-else-if="$fetchState.error" class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
-      <p>Error while fetching auction details: {{ $fetchState.error.message }}</p>
-    </div>
-
-    <template v-else>
       <div class="max-w-6xl mx-auto my-12 px-4 sm:px-6">
         <div class="flex gap-16">
           <div class="flex-1">
@@ -35,7 +26,11 @@
               />
             </div>
 
-            <AuctionCountdown />
+            <AuctionCountdown
+              :has-ended="auction.hasEnded"
+              :start-date="auction.startDate"
+              :end-date="auction.endDate"
+            />
 
             <div class="grid gap-4 mt-6">
               <AuctionSignin
@@ -44,7 +39,8 @@
               />
 
               <AuctionBidForm
-                v-show="session"
+                v-show="session && !auction.hasEnded"
+                :auction-id="auction.id"
                 :minimum-bid="auction.minimumBid"
                 class="col-span-2"
               />
@@ -68,7 +64,6 @@
           </div>
         </div>
       </div>
-    </template>
   </div>
 </template>
 
@@ -87,6 +82,25 @@ export default defineComponent({
     const error = ref(null)
     const auction = ref(null)
     const auctionAPIService = new AuctionAPIService($supabase)
+
+    // const auction = useAsync(async () => {
+    //   const [data, auctionError] = await auctionAPIService.findById(id)
+
+    //   if (auctionError) {
+    //     error.value = auctionError.message
+    //   } else {
+    //     return data
+    //   }
+    // })
+
+    // title.value = auction.name
+    // meta.value = [
+    //   {
+    //     hid: 'description',
+    //     name: 'description',
+    //     content: auction.description
+    //   }
+    // ]
 
     useFetch(async () => {
       const [data, auctionError] = await auctionAPIService.findById(id)

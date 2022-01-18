@@ -1,10 +1,7 @@
 <template>
   <p class="text-center mt-6">
-    <nuxt-link
-      to="/login"
-      class="text-indigo-600 hover:text-indigo-800"
-    >
+    <BaseLink to="/login">
       Already have an account? Log In
-    </nuxt-link>
+    </BaseLink>
   </p>
 </template>

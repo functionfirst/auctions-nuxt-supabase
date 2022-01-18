@@ -6,20 +6,19 @@ class AuctionAPIService {
     name,
     slug,
     description,
-    estimateMin,
-    estimateMax,
-    startAmount,
-    bids (
-      value
-    )
+    end_date,
+    start_date,
+    estimate_min,
+    estimate_max,
+    start_amount
   `
 
-  constructor (supabase) {
+  constructor(supabase) {
     this.collection = supabase.from('auctions')
   }
 
-  async create (item) {
-    const { data, error }  = await this.collection.insert(item).single()
+  async create(item) {
+    const { data, error } = await this.collection.insert(item).single()
 
     if (error) {
       return [null, error]
@@ -28,7 +27,7 @@ class AuctionAPIService {
     return [data]
   }
 
-  async update (query, item) {
+  async update(query, item) {
     const { data, error } = await this.collection.update(item).match(query)
 
     if (error) {
@@ -38,7 +37,7 @@ class AuctionAPIService {
     return [data]
   }
 
-  async delete (query) {
+  async delete(query) {
     const { data, error } = await this.collection.delete().match(query)
 
     if (error) {
@@ -48,8 +47,8 @@ class AuctionAPIService {
     return [data]
   }
 
-  async findAll () {
-    const { data, error } =  await this.collection.select(this.allowedFields)
+  async findAll() {
+    const { data, error } = await this.collection.select(this.allowedFields)
 
     if (error) {
       return [null, error]
@@ -58,19 +57,11 @@ class AuctionAPIService {
     return [auctionFactory(data)]
   }
 
-
-  async findById (id) {
-    const { data, error } = await this.collection.select(this.allowedFields).eq('id', id).single()
-
-    if (error) {
-      return [null, error]
-    }
-
-    return [auctionFactory(data)]
-  }
-
-  async discover () {
-    const { data, error } = await this.collection.select(this.allowedFields).range(0, 9)
+  async findById(id) {
+    const { data, error } = await this.collection
+      .select(this.allowedFields)
+      .eq('id', id)
+      .single()
 
     if (error) {
       return [null, error]
@@ -79,8 +70,22 @@ class AuctionAPIService {
     return [auctionFactory(data)]
   }
 
-  async upcoming () {
-    const { data, error } = await this.collection.select(this.allowedFields).range(0, 9)
+  async discover() {
+    const { data, error } = await this.collection
+      .select(this.allowedFields)
+      .range(0, 9)
+
+    if (error) {
+      return [null, error]
+    }
+
+    return [auctionFactory(data)]
+  }
+
+  async upcoming() {
+    const { data, error } = await this.collection
+      .select(this.allowedFields)
+      .range(0, 9)
 
     if (error) {
       return [null, error]

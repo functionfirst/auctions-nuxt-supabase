@@ -12,23 +12,25 @@
       required
     />
 
-    <BaseLabel for="confirmPassword">
-      Confirm Password
-    </BaseLabel>
+    <BaseFormRow>
+      <BaseLabel for="confirmPassword">
+        Confirm Password
+      </BaseLabel>
 
-    <BaseInput
-      id="confirmPassword"
-      v-model="credentials.confirmPassword"
-      type="password"
-      minlength="6"
-      required
-    />
+      <BaseInput
+        id="confirmPassword"
+        v-model="credentials.confirmPassword"
+        type="password"
+        minlength="6"
+        required
+      />
+    </BaseFormRow>
 
     <ErrorAlert :message="error" />
 
     <SuccessAlert :message="success" />
 
-    <div class="text-center">
+    <div class="text-center mt-6">
       <LoadingButton :loading="loading">
         Change Password
       </LoadingButton>

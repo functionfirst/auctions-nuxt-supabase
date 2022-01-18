@@ -1,44 +1,52 @@
 <template>
-  <div>
-    <p class="my-4">
-      Closing: <span class="font-semibold">3 days</span>
-    </p>
-
-    <h3 v-if="isLive" class="flex flex-col-reverse ml-3 items-end">
-      <span class="text-gray-600 text-sm">
-        Auction ends
-      </span>
-
-      <span class="text-indigo-900 font-medium text-xl">
-        {{ endDate }}
-      </span>
-    </h3>
-  </div>
+  <dl class="flex gap-2 my-4">
+    <dt>
+      {{ label }}:
+    </dt>
+    <dd class="font-semibold">
+      <time :title="title" :datetime="end">
+        {{ endFormat }}
+      </time>
+    </dd>
+  </dl>
 </template>
 
 <script>
-import { computed, defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
+import formatDistance from 'date-fns/formatDistance'
+import parseISO from 'date-fns/parseISO'
+import toDate from 'date-fns/toDate'
+import format from 'date-fns/format'
 
 export default defineComponent({
   props: {
-    isLive: {
-      default: false,
-      required: false,
-      type: Boolean
+    endDate: {
+      required: true,
+      type: String
     }
   },
 
-  setup () {
-    // <%= distance_of_time_in_words(Time.now, @auction.end_date, true, { compact: true, words_connector: ' ', two_words_connector: ' ', last_word_connector: ' ' }) %>
-    const endDate = computed(() => new Date())
+  setup ({ endDate, hasEnded }) {
+    const now = toDate(new Date())
+    const end = parseISO(endDate)
+    const endFormatted = format(end, "io MMM yyyy 'at' HH:mmaaaa")
+    const endFormatShort = format(end, 'io MMMM yyyy')
+    const endDistance = formatDistance(now, end)
 
-    //   distanceOfTimeInWords (value) {
-    //     // <%= distance_of_time_in_words(Time.now, @auction.end_date, true, { compact: true, words_connector: ' ', two_words_connector: ' ', last_word_connector: ' ' }) %>
-    //     return value
-    //   }
+    if (hasEnded) {
+      return {
+        label: 'Closed',
+        title: `Auction ended on ${endFormatted}`,
+        endFormat: endFormatShort,
+        end
+      }
+    }
 
     return {
-      endDate
+      label: 'Closing',
+      title: `Auction ends on ${endFormatted}`,
+      endFormat: endDistance,
+      end
     }
   }
 })

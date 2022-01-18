@@ -1,74 +1,106 @@
 <template>
-  <form
-    class="w-full max-w-lg mt-6"
-    @submit.prevent="signin(credentials, redirect)"
-  >
-    <BaseLabel for="loginEmail">
-      Email Address
-    </BaseLabel>
+  <div>
+    <h1 class="font-semibold text-xl">Welcome back</h1>
 
-    <BaseInput
-      id="loginEmail"
-      v-model="credentials.email"
-      placeholder="your@email.com"
-      required
-    />
+    <p class="text-gray-500 mt-2">Sign in to your account</p>
 
-    <nuxt-link
-      to="forgot-password"
-      class="text-indigo-600 hover:text-indigo-800 float-right mb-2x"
+    <form
+      class="w-full max-w-lg mt-6"
+      @submit.prevent="signin(credentials)"
     >
-      Forgot your password?
-    </nuxt-link>
+      <BaseFormRow>
+        <BaseLabel for="loginEmail">
+          Email Address
+        </BaseLabel>
 
-    <BaseLabel for="loginPassword">
-      Password
-    </BaseLabel>
+        <BaseInput
+          id="loginEmail"
+          v-model="credentials.email"
+          placeholder="your@email.com"
+          required
+        />
+      </BaseFormRow>
 
-    <BaseInput
-      id="loginPassword"
-      v-model="credentials.password"
-      type="password"
-      placeholder="******************"
-      required
-    />
+      <BaseFormRow>
+        <div class="flex mb-2 items-center">
+          <BaseLabel for="loginPassword" class="flex-1">
+            Password
+          </BaseLabel>
 
-    <ErrorAlert :message="error" />
+          <nuxt-link
+            to="/forgot-password"
+            class="text-indigo-600 hover:text-indigo-800"
+          >
+            Forgot your password?
+          </nuxt-link>
+        </div>
 
-    <div class="text-center">
-      <LoadingButton :loading="loading">
-        Login
-      </LoadingButton>
-    </div>
-  </form>
+        <BaseInput
+          id="loginPassword"
+          v-model="credentials.password"
+          type="password"
+          placeholder="******************"
+          required
+        />
+      </BaseFormRow>
+
+      <ErrorAlert :message="error" />
+
+      <BaseFormRow class="text-center">
+        <LoadingButton
+          id="loginButton"
+          :loading="loading"
+        >
+          Login
+        </LoadingButton>
+      </BaseFormRow>
+    </form>
+
+    <AuthSignupLink />
+  </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from '@nuxtjs/composition-api'
-import useAuth from '@/composables/useAuth'
+import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
+import AuthService from '../services/AuthService'
+// import useAuth from '@/composables/useAuth'
+
+// type credentials = {
+//   email: string,
+//   password: string
+// }
 
 export default defineComponent({
-  props: {
-    redirect: {
-      default: '/',
-      required: false,
-      type: String
-    }
-  },
-
   setup () {
-    const { error, loading, session, signin } = useAuth()
-
+    // const { error, loading, session, signin } = useAuth()
+    const router = useRouter()
+    const loading = ref(false)
+    const error = ref(null)
+    const { $supabase } = useContext()
+    const service = new AuthService($supabase)
     const credentials = reactive({
       email: '',
       password: ''
     })
 
+    const signin = async (credentials) => {
+      const { error } = await service.signin(credentials)
+
+      if (error) {
+        throw new Error(error)
+        // error.value = signinError.message
+      } else {
+        router.push('/account')
+      }
+
+      loading.value = false
+    }
+
     return {
       credentials,
       error,
       loading,
-      session,
+      // session,
       signin
     }
   }

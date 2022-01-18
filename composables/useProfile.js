@@ -1,7 +1,15 @@
-import { computed, reactive, ref, onMounted, watchEffect, useContext, useStore } from '@nuxtjs/composition-api'
+import {
+  computed,
+  reactive,
+  ref,
+  onMounted,
+  watchEffect,
+  useContext,
+  useStore
+} from '@nuxtjs/composition-api'
 import ProfileAPIService from '@/services/ProfileAPIService'
 
-function useProfile () {
+function useProfile() {
   const { state, commit } = useStore()
   const { $supabase } = useContext()
   const profileAPIService = new ProfileAPIService($supabase)
@@ -16,13 +24,17 @@ function useProfile () {
 
   const profileExists = computed(() => Object.entries(profile).length)
 
-  async function getUserProfile () {
-    if (profileExists.value) { return }
+  async function getUserProfile() {
+    if (profileExists.value) {
+      return
+    }
     success.value = null
     error.value = null
     loading.value = true
 
-    const { data, error: getProfileError } = await profileAPIService.getProfile(state.session)
+    const { data, error: getProfileError } = await profileAPIService.getProfile(
+      state.session
+    )
 
     if (getProfileError) {
       error.value = getProfileError.message
@@ -33,16 +45,17 @@ function useProfile () {
     loading.value = false
   }
 
-  async function saveProfile () {
+  async function saveProfile() {
     error.value = null
     success.value = null
     loading.value = true
 
-    const { error: updateProfileError } = await profileAPIService.updateProfileMinimal({
-      id: state.session.user.id,
-      updatedAt: new Date(), // @todo do this in supabase trigger
-      ...profile
-    })
+    const { error: updateProfileError } =
+      await profileAPIService.updateProfileMinimal({
+        id: state.session.user.id,
+        updated_at: new Date(), // @todo do this in supabase trigger
+        ...profile
+      })
 
     if (updateProfileError) {
       error.value = updateProfileError.message

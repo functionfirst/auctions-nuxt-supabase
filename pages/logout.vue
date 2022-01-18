@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { onMounted, defineComponent } from '@nuxtjs/composition-api'
 import useAuth from '@/composables/useAuth'
 

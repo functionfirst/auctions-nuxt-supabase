@@ -1,17 +1,5 @@
 <template>
-  <div>
-    <h1 class="font-semibold text-4xl mb-6 tracking-tight">
-      Welcome back
-    </h1>
-
-    <p class="text-gray-700 text-lg mb-6">
-      Sign in to your account
-    </p>
-
-    <AuthLoginForm :redirect="redirect" />
-
-    <AuthSignupLink />
-  </div>
+  <AuthLoginForm :redirect="redirect" />
 </template>
 
 <script>

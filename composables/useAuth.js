@@ -1,35 +1,25 @@
 import { computed, useStore, useRouter, ref, useContext } from '@nuxtjs/composition-api'
-import AuthAPIService from '@/services/AuthAPIService'
+import AuthService from '@/services/AuthService'
 
-function useAuth () {
+function useAuth() {
   const { $supabase } = useContext()
-  const authAPIService = new AuthAPIService($supabase)
-  const { state, commit } = useStore()
+  const service = new AuthService($supabase)
+  const { state } = useStore()
   const router = useRouter()
-
   const error = ref(null)
   const session = ref(state.session)
   const success = ref(null)
   const loading = ref(false)
 
-  const changePassword = async ({ password, confirmPassword }) => {
-    error.value = null
-    success.value = null
-    loading.value = true
+  const changePassword = async (credentials) => {
+    // const loading = ref(true)
+    const { success, message } = await service.updatePassword(credentials)
 
-    if (confirmPassword !== password) {
-      error.value = 'Please ensure your passwords match'
+    if (!success) {
+      error.value = message
     } else {
-      const { error: changePasswordError } = await authAPIService.updateUser({ password })
-
-      if (changePasswordError) {
-        error.value = changePasswordError.message
-      } else {
-        success.value = 'Your password has been updated successfully'
-      }
+      success.value = message
     }
-
-    loading.value = false
   }
 
   const resetPasswordForEmail = async (email) => {
@@ -37,7 +27,7 @@ function useAuth () {
     success.value = null
     loading.value = true
 
-    const { error: resetPasswordError } = await authAPIService.resetPasswordForEmail(email)
+    const { error: resetPasswordError } = await service.resetPasswordForEmail(email)
 
     if (resetPasswordError) {
       error.value = resetPasswordError.message
@@ -48,80 +38,76 @@ function useAuth () {
     loading.value = false
   }
 
-  const signin = async (credentials, redirect = '/') => {
-    error.value = null
-    success.value = null
-    loading.value = true
+  const signin = async (credentials, redirectTo) => {
+    const { error } = await service.signin(credentials)
 
-    const { error: signinError } = await authAPIService.signin(credentials)
-
-    if (signinError) {
-      error.value = signinError.message
+    if (error) {
+      throw new Error(error)
+      // error.value = signinError.message
     } else {
-      router.push(redirect.value.toString())
+      router.push(redirectTo.value ?? '/account')
     }
 
     loading.value = false
   }
 
   const signout = async () => {
-    error.value = null
-    success.value = null
-    loading.value = true
+    const { error, message } = await service.signout()
 
-    const { error: signoutError } = await authAPIService.signout()
-
-    if (signoutError) {
-      error.value = signoutError.message
-    } else {
-      commit('logout')
-      success.value = 'You have successfully signed out'
-      router.push('/')
+    if (error) {
+      throw new Error(error)
+      // return ServiceResponse(false, error.message)
     }
 
-    loading.value = false
+    return message
+
+    // return ServiceResponse(true, 'You have successfully signed out')
+  }
+
+  const wasConfirmationSent = (data) => {
+    return data && Object.prototype.hasOwnProperty.call(data, 'confirmation_sent_at')
   }
 
   const signup = async ({ email, password, confirmPassword }) => {
-    error.value = null
-    success.value = null
-    loading.value = true
+    // if (confirmPassword !== password) {
+    //   return new ServiceResponse(false, 'Please ensure your passwords match')
+    // }
 
-    if (confirmPassword !== password) {
-      error.value = 'Please ensure your passwords match'
-    } else {
-      const { error: signUpError, data } = await authAPIService.signup({ email, password })
+    const { data } = await service.signup({
+      email,
+      password
+    })
 
-      const confirmationSent = data && Object.prototype.hasOwnProperty.call(data, 'confirmation_sent_at')
+    // if (error) {
+    //   return new ServiceResponse(false, error.message)
+    // }
 
-      if (signUpError) {
-        error.value = signUpError.message
-      } else if (confirmationSent) {
-        error.value = 'Check your email for the confirmation link'
-      } else {
-        success.value = 'Your account has been created. A confirmation link has been emailed to you'
-        router.push('/success')
-      }
+    if (wasConfirmationSent(data)) {
+      console.log('Check your email for the confirmation link')
+      return
+      // return new ServiceResponse(false, 'Check your email for the confirmation link')
     }
 
-    loading.value = false
+    console.log('Your account has been created. A confirmation link has been emailed to you')
+    // return
+    // return new ServiceResponse(true, 'Your account has been created. A confirmation link has been emailed to you')
   }
 
   const updateUserWithToken = async (accessToken, user) => {
     error.value = null
-    success.value = null
-    loading.value = true
+    // success.value = null
+    loading.value = null
 
-    const { error: updateUserError } = await authAPIService.updateUserWithToken(accessToken, user)
+    const { success, message } = await service.updateUserWithToken({ accessToken, user })
 
-    if (updateUserError) {
-      error.value = updateUserError.message
-    } else {
-      success.value = 'Your account has been updated successfully'
-      router.push('/')
+    if (!success) {
+      error.value = message
+      // throw new Error(message)
+      // return new ServiceResponse(false, error.message)
     }
 
     loading.value = false
+    // return new ServiceResponse(true, 'Your account has been updated successfully')
   }
 
   return {

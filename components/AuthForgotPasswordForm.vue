@@ -3,27 +3,29 @@
     class="w-full max-w-lg mt-6"
     @submit.prevent="resetPasswordForEmail(email)"
   >
-    <BaseLabel for="resetEmail">
-      Email Address
-    </BaseLabel>
+    <BaseFormRow>
+      <BaseLabel for="resetEmail">
+        Email Address
+      </BaseLabel>
 
-    <BaseInput
-      id="resetEmail"
-      v-model="email"
-      type="email"
-      placeholder="your@email.com"
-      required
-    />
+      <BaseInput
+        id="resetEmail"
+        v-model="email"
+        type="email"
+        placeholder="your@email.com"
+        required
+      />
+    </BaseFormRow>
 
     <ErrorAlert :message="error" />
 
     <SuccessAlert :message="success" />
 
-    <div class="text-center">
+    <BaseFormRow class="text-center">
       <LoadingButton :loading="loading">
         Send reset password instructions
       </LoadingButton>
-    </div>
+    </BaseFormRow>
   </form>
 </template>
 

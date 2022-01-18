@@ -1,104 +1,137 @@
 <template>
-  <form class="bg-gray-100 p-4 rounded-sm shadow-sm">
-    <div v-show="!confirmPanel">
-      <BaseLabel for="bidIncrement">
-        Select a bid increment
-      </BaseLabel>
+  <form
+    class="bg-gray-100 p-4 rounded-sm"
+    @submit.prevent="submit"
+  >
+    <BaseLabel for="bidAmount">
+      Enter a bid amount
+    </BaseLabel>
 
-      <div class="flex gap-2">
-        <select
-          id="bidIncrement"
-          v-model="incrementAmount"
-          class="appearance-none border px-3 w-full rounded-sm h-12"
-        >
-          <option
-            v-for="increment in increments"
-            :key="increment"
-            :value="increment"
-          >
-            <!-- {|f| ["+ £#{('%0.2f' % f)}", f]}), -->
-            + {{ formatCurrency(increment) }}
-          </option>
-        </select>
-
-        <button
-          type="button"
-          class="bg-indigo-600 hover:bg-indigo-700 px-6 h-12 rounded-sm shadow-md text-sm text-white whitespace-nowrap"
-          @click="confirmPanel = true"
-        >
-          Place a Bid
-        </button>
-      </div>
-
-      <p class="mt-2 text-xs text-indigo-900 xtext-center">
-        You will be able confirm your bid in the next step
-      </p>
-    </div>
-
-    <div
-      v-show="confirmPanel"
-      key="confirmPanel"
-      class=""
-    >
-      <BaseLabel>
-        You are about to place a bid for:
-      </BaseLabel>
-
-      <div class="flex items-stretch gap-2">
-        <div class="flex items-center text-lg flex-1 font-semibold h-12">
-          {{ bidAmount }}
-        </div>
-
-        <button
-          type="button"
-          xclass="py-0 border border-indigo-600 text-indigo-600 hover:border-gray-200 hover:bg-indigo-700 rounded-sm px-3"
-          class="bg-gray-600 hover:bg-gray-700 px-6 h-12 rounded-sm shadow-md text-center text-sm text-white"
-          @click="confirmPanel = false"
-        >
-          Cancel
-        </button>
-
-        <button class="bg-indigo-600 hover:bg-indigo-700 px-6 h-12 rounded-sm shadow-md text-sm text-white">
-          Confirm Bid
-        </button>
-      </div>
-
-      <input
-        type="hidden"
-        name="formInput"
-        value="0"
+    <div class="flex items-stretch relative">
+      <label
+        for="bidAmount"
+        class="cursor-pointer flex items-center px-4 absolute left-0 inset-y-0"
       >
+        £
+      </label>
+
+      <BaseInput
+        id="bidAmount"
+        v-model="bidAmount"
+        :placeholder="`Minium bid amount ${minBid}`"
+        :min="minimumBid + 1"
+        class="rounded-none pl-10"
+        type="number"
+        required
+      />
+
+      <button class="px-6 py-2 rounded-r-sm shadow-md text-sm whitespace-nowrap bg-indigo-600 text-white hover:bg-indigo-700">
+        <LoadingState v-bind="{ loading }">
+          Place a Bid
+        </LoadingState>
+      </button>
     </div>
+
+    <ErrorAlert
+      class="mt-2"
+      :message="error"
+    />
+
+    <SuccessAlert
+      class="mt-2"
+      :message="success"
+    />
   </form>
 </template>
 
 <script>
-import { defineComponent, computed, ref } from '@nuxtjs/composition-api'
+import { computed, defineComponent, useStore, ref, useContext, onDeactivated } from '@nuxtjs/composition-api'
 import useFilter from '~/composables/useFilter'
 // import useAuction from '@/composables/useAuction'
 
 export default defineComponent({
   props: {
+    auctionId: {
+      required: true,
+      type: Number
+    },
+
     minimumBid: {
       required: true,
       type: Number
     }
   },
 
-  setup (props) {
+  setup ({ auctionId, minimumBid }) {
     const { formatCurrency } = useFilter()
-    // const { increments, auction } = useAuction(props.auctionId)
-    const incrementAmount = ref(1) // @todo - replace this with value received via web socket?
-    const confirmPanel = ref(false)
-    const increments = ref([1, 5, 10, 20, 50, 100, 125, 175, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000])
-    const bidAmount = computed(() => formatCurrency(props.minimumBid + incrementAmount.value))
+    const loading = ref(false)
+    const error = ref(null)
+    const success = ref(null)
+    const bidAmount = ref('')
+    const { state } = useStore()
+    const { session } = state
+
+    const { $supabase } = useContext()
+
+    const minBid = computed(() => formatCurrency(minimumBid + 1))
+
+    const bidSubscription = $supabase
+        .from(`bids:id=eq.${auctionId}`)
+        .on('INSERT', payload => {
+          console.log('Change received!', payload)
+        })
+        .subscribe()
+
+    const mySubscription = $supabase
+      .from('*')
+      .on('*', payload => {
+        console.log('Change received!', payload)
+      })
+      .subscribe()
+
+    console.log(mySubscription)
+
+    onDeactivated(() => {
+      if (bidSubscription) {
+        console.log('delete subscription')
+        $supabase.removeSubscription(bidSubscription)
+      }
+    })
+
+    const submit = async () => {
+      error.value = null
+      success.value = null
+      loading.value = true
+
+      const payload = [{
+        auctionId,
+        uid: session.user.id,
+        value: bidAmount.value
+      }]
+
+      const { error: err } = await $supabase
+        .from('bids')
+        .insert(payload)
+
+      if (err) {
+        error.value = err.message
+      } else {
+        success.value = 'Bid accepted'
+      }
+
+      loading.value = false
+    }
 
     return {
       bidAmount,
+      error,
+      loading,
       formatCurrency,
-      incrementAmount,
-      confirmPanel,
-      increments
+      // incrementAmount,
+      submit,
+      minBid,
+      success
+      // increments
     }
   }
 })

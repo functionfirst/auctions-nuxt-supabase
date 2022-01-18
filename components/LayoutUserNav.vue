@@ -26,6 +26,7 @@
       class="flex items-center tracking-wider font-semibold text-sm"
     >
       <nuxt-link
+        id="login"
         to="/login"
         class="flex items-center px-4 py-2 text-gray-500 hover:text-indigo-800 mr-2"
       >
