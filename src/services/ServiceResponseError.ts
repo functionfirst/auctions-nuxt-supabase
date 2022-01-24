@@ -1,12 +1,13 @@
 import ServiceResponse from './ServiceResponse'
 
 interface ServiceResponseError {
-  error: string
+  message: string
 }
 
 class ServiceResponseError extends ServiceResponse {
-  constructor(error: string) {
-    super({ error })
+  constructor(message: string) {
+    const error = true
+    super({ error, message})
   }
 }
 

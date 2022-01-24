@@ -1,11 +1,15 @@
 interface ServiceResponse {
   data?: object[] | string[]
-  error?: string
-  message?: string
+  error?: boolean
+  message: string
 }
 
 class ServiceResponse {
-  constructor({ data = [], error, message } : ServiceResponse) {
+  constructor({
+    data = [],
+    error = false,
+    message
+  } : ServiceResponse) {
     this.data = data
     this.error = error
     this.message = message

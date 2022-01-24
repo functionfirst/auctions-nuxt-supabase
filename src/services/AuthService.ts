@@ -19,7 +19,7 @@ class AuthService {
     this.service = service
   }
 
-  async resetPasswordForEmail(email : string) {
+  async resetPasswordForEmail(email: string) {
     const { error } = await this.service.auth.api.resetPasswordForEmail(email)
 
     if (error) {
@@ -72,7 +72,7 @@ class AuthService {
     return new ServiceResponseSuccess('Signin successful')
   }
 
-  async updateUserWithToken(jwt: string, user : UserAttributes) {
+  async updateUserWithToken(jwt: string, user: UserAttributes) {
     const { error } = await this.service.auth.api.updateUser(jwt, user)
 
     if (error) {
@@ -82,7 +82,7 @@ class AuthService {
     return new ServiceResponseSuccess('Your account has been updated successfully')
   }
 
-  async updatePassword({ confirmPassword, password } : UserAttributes) {
+  async updatePassword({ confirmPassword, password }: UserAttributes) {
     const passwordMismatch = confirmPassword !== password
 
     if (passwordMismatch) {

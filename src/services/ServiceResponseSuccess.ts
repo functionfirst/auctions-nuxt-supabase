@@ -2,7 +2,7 @@ import ServiceResponse from './ServiceResponse'
 
 interface ServiceResponseSuccess {
   message: string
-  data?: object[]
+  data?: object[] | string[]
 }
 
 class ServiceResponseSuccess extends ServiceResponse {
