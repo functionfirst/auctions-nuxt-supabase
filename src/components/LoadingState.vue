@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center"> 
+  <div class="flex items-center">
     <span
       class="transform transition-transform duration-300 ease-in-out"
       :class="loading ? '-translate-x-6' : null"
@@ -18,10 +18,7 @@
       leave-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-70"
     >
-      <IconSpinner
-        v-show="loading"
-        class="absolute right-6"
-      />
+      <IconSpinner v-show="loading" class="absolute right-6" />
     </transition>
   </div>
 </template>

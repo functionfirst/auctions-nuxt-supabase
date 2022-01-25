@@ -8,10 +8,10 @@ module.exports = {
   plugins: [],
   purge: {
     content: [
-      'components/**/*.{vue,js}',
-      'layouts/**/*.vue',
-      'pages/**/*.vue',
-      'plugins/**/*.{js,ts}',
+      'src/components/**/*.{vue,js}',
+      'src/layouts/**/*.vue',
+      'src/pages/**/*.vue',
+      'src/plugins/**/*.{js,ts}',
       'nuxt.config.{js,ts}'
     ]
   }

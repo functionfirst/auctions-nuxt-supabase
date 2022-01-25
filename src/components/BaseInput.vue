@@ -19,7 +19,7 @@ export default defineComponent({
 
     value: {
       default: '',
-      type: String,
+      type: String
     }
   }
 })
