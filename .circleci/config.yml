@@ -1,23 +1,40 @@
-version: 2.1
+version: 2
+
 jobs:
-  build:
-    working_directory: ~/repo
+  ci:
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:lts
     steps:
       - checkout
-      - run:
-          name: Update NPM
-          command: 'sudo npm install -g npm'
+
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          keys:
+            - yarn-v1-{{ checksum "yarn.lock" }}
+
       - run:
-          name: Install Dependencies
-          command: npm install
+          name: Install dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+
       - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: yarn-v1-{{ checksum "yarn.lock" }}
           paths:
-            - ./node_modules
+            - ~/.cache/yarn
+
+      - run:
+          name: Run linter
+          command: yarn lint
+
       - run:
           name: Run tests
-          command: npm run test
+          command: yarn test
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - ci:
+          filters:
+            branches:
+              only:
+                - main
+                - master
