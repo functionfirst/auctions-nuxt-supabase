@@ -10,8 +10,6 @@
 
 <script>
 import { defineComponent, useMeta, useFetch, ref } from '@nuxtjs/composition-api'
-import AuctionAPIService from '@/services/AuctionAPIService'
-import { supabase } from '@/plugins/supabase'
 
 export default defineComponent({
   setup () {
@@ -19,8 +17,7 @@ export default defineComponent({
     const err = ref(null)
 
     useFetch(async () => {
-      const auctionAPIService = new AuctionAPIService(supabase)
-      const [data, error] = await auctionAPIService.discover()
+      const [data, error] = await this.$services.auction.discover()
 
       if (error) {
         err.value = error.message

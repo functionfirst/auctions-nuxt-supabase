@@ -76,15 +76,15 @@ export default defineComponent({
     const minBid = computed(() => formatCurrency(minimumBid + 1))
 
     const bidSubscription = $supabase
-        .from(`bids:id=eq.${auctionId}`)
-        .on('INSERT', payload => {
-          console.log('Change received!', payload)
-        })
-        .subscribe()
+      .from(`bids:id=eq.${auctionId}`)
+      .on('INSERT', (payload) => {
+        console.log('Change received!', payload)
+      })
+      .subscribe()
 
     const mySubscription = $supabase
       .from('*')
-      .on('*', payload => {
+      .on('*', (payload) => {
         console.log('Change received!', payload)
       })
       .subscribe()

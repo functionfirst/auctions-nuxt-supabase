@@ -3,8 +3,8 @@
     class="flex items-center justify-center shadow-sm border py-1.5 px-3 text-sm rounded-sm"
     :class="
       watching ?
-      'border-transparent bg-indigo-600 text-white hover:bg-indigo-800' :
-      'border-indigo-600 bg-white text-indigo-600 hover:text-indigo-900 hover:border-indigo-900'
+        'border-transparent bg-indigo-600 text-white hover:bg-indigo-800' :
+        'border-indigo-600 bg-white text-indigo-600 hover:text-indigo-900 hover:border-indigo-900'
     "
     @click="toggle"
   >

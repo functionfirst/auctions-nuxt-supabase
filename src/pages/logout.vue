@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import { onMounted, defineComponent, useContext, useRouter, ref } from '@nuxtjs/composition-api'
-import AuthService from '../services/AuthService'
+import { onMounted, defineComponent, useRouter, ref } from '@nuxtjs/composition-api'
+// import AuthService from '../services/auth'
 
 export default defineComponent({
   layout: 'base',
 
   setup () {
     const router = useRouter()
-    const { $supabase } = useContext()
-    const service = new AuthService($supabase)
+    // const { $supabase } = useContext()
+    // const service = new AuthService($supabase)
     const error = ref('')
     const signout = async () => {
-      const { error: signoutError } = await service.signout()
+      const { error: signoutError } = await this.$service.auth.signout()
 
       if (signoutError) {
         error.value = signoutError

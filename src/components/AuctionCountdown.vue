@@ -13,10 +13,7 @@
 
 <script>
 import { defineComponent } from '@nuxtjs/composition-api'
-import formatDistance from 'date-fns/formatDistance'
-import parseISO from 'date-fns/parseISO'
-import toDate from 'date-fns/toDate'
-import format from 'date-fns/format'
+import { formatDistance, parseISO, toDate, format } from 'date-fns'
 
 export default defineComponent({
   props: {

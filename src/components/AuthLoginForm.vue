@@ -1,8 +1,12 @@
 <template>
   <div>
-    <h1 class="font-semibold text-xl">Welcome back</h1>
+    <h1 class="font-semibold text-xl">
+      Welcome back
+    </h1>
 
-    <p class="text-gray-500 mt-2">Sign in to your account</p>
+    <p class="text-gray-500 mt-2">
+      Sign in to your account
+    </p>
 
     <form
       class="w-full max-w-lg mt-6"
@@ -61,8 +65,8 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
-import AuthService from '../services/AuthService'
+import { defineComponent, reactive, ref, useRouter } from '@nuxtjs/composition-api'
+// import AuthService from '@/services/auth'
 // import useAuth from '@/composables/useAuth'
 
 // type credentials = {
@@ -76,15 +80,15 @@ export default defineComponent({
     const router = useRouter()
     const loading = ref(false)
     const error = ref(null)
-    const { $supabase } = useContext()
-    const service = new AuthService($supabase)
+    // const { $supabase } = useContext()
+    // const service = new AuthService($supabase)
     const credentials = reactive({
       email: '',
       password: ''
     })
 
     const signin = async (credentials) => {
-      const { error } = await service.signin(credentials)
+      const { error } = await this.$services.auth.signin(credentials)
 
       if (error) {
         throw new Error(error)

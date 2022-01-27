@@ -22,7 +22,11 @@ export default {
   srcDir: 'src/',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/supabase', '~/plugins/auth.client'],
+  plugins: [
+    '~/plugins/supabase',
+    '~/plugins/auth.client', // @todo probably remove this and access it via a service at some point
+    '~/plugins/services'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
