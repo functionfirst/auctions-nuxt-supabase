@@ -9,15 +9,16 @@
 </template>
 
 <script>
-import { defineComponent, useMeta, useFetch, ref } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta, useFetch, ref, useContext } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   setup () {
+    const { $services } = useContext()
     const auctions = ref([])
     const err = ref(null)
 
     useFetch(async () => {
-      const [data, error] = await this.$services.auction.discover()
+      const { data, error } = await $services.auction.discover()
 
       if (error) {
         err.value = error.message
